@@ -8,7 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace bbbs2017backend
+namespace AspNetCoreWebService
 {
     public class Startup
     {

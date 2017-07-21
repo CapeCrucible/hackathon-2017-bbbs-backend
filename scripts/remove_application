@@ -1,2 +1,2 @@
 #!/bin/bash
-rm -rf /home/ubuntu/bbbs2017backend
+rm -rf /home/ubuntu/aspnetcoreservice

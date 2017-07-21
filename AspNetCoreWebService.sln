@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.16
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "bbbs2017backend", "bbbs2017backend\bbbs2017backend.csproj", "{8AD679E1-925F-4A00-A1B8-03ABE496CB62}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AspNetCoreWebService", "AspNetCoreWebService\AspNetCoreWebService.csproj", "{39156377-CC90-4DBE-AFF6-BC7F3698AC03}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8AD679E1-925F-4A00-A1B8-03ABE496CB62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8AD679E1-925F-4A00-A1B8-03ABE496CB62}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8AD679E1-925F-4A00-A1B8-03ABE496CB62}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8AD679E1-925F-4A00-A1B8-03ABE496CB62}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39156377-CC90-4DBE-AFF6-BC7F3698AC03}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39156377-CC90-4DBE-AFF6-BC7F3698AC03}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39156377-CC90-4DBE-AFF6-BC7F3698AC03}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39156377-CC90-4DBE-AFF6-BC7F3698AC03}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

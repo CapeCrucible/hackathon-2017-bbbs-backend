@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace AspNetCoreWebService.Controllers
 {
-    [Route("/")]
+    [Route("/api")]
     public class HelloController : Controller
     {
         private const string MESSAGE_FORMAT = "Hello {0}!";
@@ -17,6 +17,15 @@ namespace AspNetCoreWebService.Controllers
             return Json(new Response
             {
                 output = string.Format(MESSAGE_FORMAT, name)
+            });
+        }
+        [HttpGet]
+        [Route("echo")]
+        public JsonResult GetEchoString([FromQuery] string word)
+        {
+            return Json(new Response
+            {
+                output = word
             });
         }
 

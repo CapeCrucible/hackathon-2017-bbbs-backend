@@ -3,13 +3,13 @@ phases:
   pre_build:
     commands:
       - echo Restore started on `date`
-      - dotnet restore AspNetCoreWebService/AspNetCoreWebService.csproj
+      - dotnet restore bbbs2017backend/bbbs2017backend.csproj
   build:
     commands:
       - echo Build started on `date`
-      - dotnet publish -c release -o ./build_output AspNetCoreWebService/AspNetCoreWebService.csproj
+      - dotnet publish -c release -o ./build_output bbbs2017backend/bbbs2017backend.csproj
 artifacts:
   files:
-    - AspNetCoreWebService/build_output/**/*
+    - bbbs2017backend/build_output/**/*
     - scripts/**/*
     - appspec.yml

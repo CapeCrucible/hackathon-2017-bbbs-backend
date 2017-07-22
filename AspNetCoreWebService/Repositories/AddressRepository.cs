@@ -18,7 +18,7 @@ namespace AspNetCoreWebService.Repositories
 
         }
 
-        public UserAddressModel CreateUserAddress(UserAddressModel addressModel)
+        public static UserAddressModel CreateUserAddress(UserAddressModel addressModel)
         {
             using (var _context = new bbbsDbContext())
             {

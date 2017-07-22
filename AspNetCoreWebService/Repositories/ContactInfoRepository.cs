@@ -8,7 +8,7 @@ namespace AspNetCoreWebService.Repositories
 {
     public class ContactInfoRepository
     {
-        public ContactInfoModel CreateUserContactInfo(ContactInfoModel contactInfoModel)
+        public static ContactInfoModel CreateUserContactInfo(ContactInfoModel contactInfoModel)
         {
             using (var _context = new bbbsDbContext())
             {

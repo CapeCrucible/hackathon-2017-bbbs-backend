@@ -11,6 +11,16 @@ namespace AspNetCoreWebService.Repositories
 {
     public class ContactInfoRepository
     {
+        public ContactInfoModel CreateUserContactInfo(ContactInfoModel contactInfoModel)
+        {
+            using (var _context = new bbbsDbContext())
+            {
+                var newContactInfo = _context.Add(AutoMapperGenericsHelper<ContactInfoModel, ContactInfo>
+                    .Convert(contactInfoModel));
+                return AutoMapperGenericsHelper<ContactInfo, ContactInfoModel>.Convert(newContactInfo.Entity);
+            }
+        }
+
         public static ContactInfoModel GetUserContactInfo(int userId)
         {
             using (var _context = new bbbsDbContext())

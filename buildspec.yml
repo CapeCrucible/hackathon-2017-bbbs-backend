@@ -3,11 +3,11 @@ phases:
   pre_build:
     commands:
       - echo Restore started on `date`
-      - dotnet restore Bbbs2017backend/Bbbs2017backend.csproj
+      - dotnet restore Bbbs2017backend.csproj
   build:
     commands:
       - echo Build started on `date`
-      - dotnet publish -c release -o ./build_output Bbbs2017backend/Bbbs2017backend.csproj
+      - dotnet publish -c release -o ./build_output Bbbs2017backend.csproj
 artifacts:
   files:
     - Bbbs2017backend/build_output/**/*

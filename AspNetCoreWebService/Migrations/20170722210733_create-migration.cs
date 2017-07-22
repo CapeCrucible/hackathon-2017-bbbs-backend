@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace AspNetCoreWebService.Migrations
 {
-    public partial class initialcreate : Migration
+    public partial class createmigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -58,9 +58,9 @@ namespace AspNetCoreWebService.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Email = table.Column<string>(nullable: true),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
+                    Password = table.Column<string>(nullable: true),
                     UserName = table.Column<string>(nullable: true),
                     UserTypeId = table.Column<int>(nullable: false)
                 },
@@ -81,11 +81,10 @@ namespace AspNetCoreWebService.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AddressId = table.Column<int>(nullable: false),
+                    Email = table.Column<string>(nullable: true),
                     PhoneNumber = table.Column<string>(nullable: true),
-                    UserAccountId = table.Column<int>(nullable: true),
-                    UserAddressId = table.Column<int>(nullable: true),
-                    UserId = table.Column<int>(nullable: false)
+                    UserAccountId = table.Column<int>(nullable: false),
+                    UserAddressId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -95,13 +94,13 @@ namespace AspNetCoreWebService.Migrations
                         column: x => x.UserAccountId,
                         principalTable: "UserAccounts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_ContactInfo_UserAddresses_UserAddressId",
                         column: x => x.UserAddressId,
                         principalTable: "UserAddresses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -130,6 +129,68 @@ namespace AspNetCoreWebService.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "LittleParentMaps",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    LittleId = table.Column<int>(nullable: false),
+                    ParentId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LittleParentMaps", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_LittleParentMaps_UserAccounts_LittleId",
+                        column: x => x.LittleId,
+                        principalTable: "UserAccounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_LittleParentMaps_UserAccounts_ParentId",
+                        column: x => x.ParentId,
+                        principalTable: "UserAccounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "BigLittleParentMaps",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    BigId = table.Column<int>(nullable: false),
+                    LittleParentMapId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BigLittleParentMaps", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BigLittleParentMaps_UserAccounts_BigId",
+                        column: x => x.BigId,
+                        principalTable: "UserAccounts",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_BigLittleParentMaps_LittleParentMaps_LittleParentMapId",
+                        column: x => x.LittleParentMapId,
+                        principalTable: "LittleParentMaps",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BigLittleParentMaps_BigId",
+                table: "BigLittleParentMaps",
+                column: "BigId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BigLittleParentMaps_LittleParentMapId",
+                table: "BigLittleParentMaps",
+                column: "LittleParentMapId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_ContactInfo_UserAccountId",
                 table: "ContactInfo",
@@ -151,6 +212,16 @@ namespace AspNetCoreWebService.Migrations
                 column: "UserAccountId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_LittleParentMaps_LittleId",
+                table: "LittleParentMaps",
+                column: "LittleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_LittleParentMaps_ParentId",
+                table: "LittleParentMaps",
+                column: "ParentId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_UserAccounts_UserTypeId",
                 table: "UserAccounts",
                 column: "UserTypeId");
@@ -159,10 +230,16 @@ namespace AspNetCoreWebService.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "BigLittleParentMaps");
+
+            migrationBuilder.DropTable(
                 name: "ContactInfo");
 
             migrationBuilder.DropTable(
                 name: "InterestUserMaps");
+
+            migrationBuilder.DropTable(
+                name: "LittleParentMaps");
 
             migrationBuilder.DropTable(
                 name: "UserAddresses");

@@ -18,5 +18,10 @@ namespace AspNetCoreWebService.Services
         {
             return ContactInfoRepository.CreateUserContactInfo(contactInfoModel);
         }
+
+        public static ContactInfoModel UpdateUserContactInfo(ContactInfoModel contactInfoModel)
+        {
+            return ContactInfoRepository.UpdateUserContactInfo(contactInfoModel);
+        }
     }
 }

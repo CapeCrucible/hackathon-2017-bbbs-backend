@@ -25,5 +25,24 @@ namespace AspNetCoreWebService.Repositories
                 return AutoMapperGenericsHelper<ContactInfo, ContactInfoModel>.Convert(_context.ContactInfo.FirstOrDefault(x => x.UserAccountId == userId));
             }
         }
+
+        public static ContactInfoModel UpdateUserContactInfo(ContactInfoModel contactInfoModel)
+        {
+            using (var _context = new bbbsDbContext())
+            {
+                var existingContactInfo = _context.ContactInfo.FirstOrDefault(x => x.Id == contactInfoModel.Id);
+
+                if (existingContactInfo != null)
+                {
+                    existingContactInfo.Email = contactInfoModel.Email;
+                    existingContactInfo.PhoneNumber = contactInfoModel.PhoneNumber;
+                    existingContactInfo.UserAccountId = existingContactInfo.UserAccountId;
+                    existingContactInfo.UserAddressId = existingContactInfo.UserAddressId;
+                    _context.SaveChanges();
+                    return AutoMapperGenericsHelper<ContactInfo, ContactInfoModel>.Convert(existingContactInfo);
+                }
+            }
+            return null;
+        }
     }
 }

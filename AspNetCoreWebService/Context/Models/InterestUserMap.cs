@@ -11,9 +11,11 @@ namespace AspNetCoreWebService.Context.Models
         public int Id { get; set; }
 
         public int UserAccountId { get; set; }
+        [ForeignKey("UserAccountId")]
         public virtual UserAccount UserAccount { get; set; }
 
         public int InterestId { get; set; }
+        [ForeignKey("InterestId")]
         public virtual Interest Interest { get; set; }
     }
 }

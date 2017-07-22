@@ -40,7 +40,33 @@ namespace AspNetCoreWebService.Controllers
         [Route("CreateUser")]
         public UserAccountModel CreateUser(UserAccountModel inputModel)
         {
-            return UserAccountService.CreateUser(inputModel);
+            return UserAccountService.CreateUserAccount(inputModel);
+        }
+
+        [HttpPost]
+        [Route("UpdateUser")]
+        public ConsolidatedUserInformationModel UpdateUserInformation(ConsolidatedUserInformationModel model)
+        {
+            return new ConsolidatedUserInformationModel
+            {
+                ContactInfoModel = ContactInfoService.UpdateUserContactInfo(model.ContactInfoModel),
+                UserAccountModel = UserAccountService.UpdateUserAccount(model.UserAccountModel),
+                UserAddressModel = AddressService.UpdateUserAddress(model.UserAddressModel)
+            };
+        }
+
+        [HttpPost]
+        [Route("CreateConsolidatedUser")]
+        public ConsolidatedUserInformationModel CreateConsolidatedUser(ConsolidatedUserInformationModel model)
+        {
+            ConsolidatedUserInformationModel newModel = new ConsolidatedUserInformationModel();
+
+            newModel.UserAccountModel = UserAccountService.CreateUserAccount(model.UserAccountModel);
+            newModel.UserAddressModel = AddressService.CreateUserAddress(model.UserAddressModel);
+            model.ContactInfoModel.AddressId = newModel.UserAddressModel.Id;
+            newModel.ContactInfoModel = ContactInfoService.CreateUserContactInfo(model.ContactInfoModel);
+
+            return newModel;
         }
     }
 }

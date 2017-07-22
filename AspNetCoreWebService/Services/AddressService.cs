@@ -22,5 +22,10 @@ namespace AspNetCoreWebService.Services
             return AddressRepository.CreateUserAddress(addressModel);
         }
 
+        public static UserAddressModel UpdateUserAddress(UserAddressModel userAddressModel)
+        {
+            return AddressRepository.UpdateUserAddress(userAddressModel);
+        }
+
     }
 }

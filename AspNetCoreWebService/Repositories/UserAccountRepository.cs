@@ -35,15 +35,29 @@ namespace AspNetCoreWebService.Repositories
         {
             using (var _context = new bbbsDbContext())
             {
-                var user = _context.UserAccounts.Add(new UserAccount{
-                    FirstName = userModel.FirstName,
-                    LastName = userModel.LastName,
-                    UserName = userModel.UserName,
-                    UserTypeId = userModel.UserTypeId
-                });
-                _context.SaveChanges();
-                return AutoMapperGenericsHelper<UserAccount, UserAccountModel>.Convert(user.Entity);
+                var newUser = _context.Add(AutoMapperGenericsHelper<UserAccountModel, UserAccount>
+                    .Convert(userModel));
+                return AutoMapperGenericsHelper<UserAccount, UserAccountModel>.Convert(newUser.Entity);
             }
+        }
+
+        public static UserAccountModel UpdateUserAccount(UserAccountModel userModel)
+        {
+            using (var _context = new bbbsDbContext())
+            {
+                var existingUser = _context.UserAccounts.FirstOrDefault(x => x.Id == userModel.Id);
+
+                if (existingUser != null)
+                {
+                    existingUser.FirstName = userModel.FirstName;
+                    existingUser.LastName = userModel.LastName;
+                    existingUser.UserName = userModel.UserName;
+                    existingUser.UserTypeId = userModel.UserTypeId;
+                    _context.SaveChanges();
+                    return AutoMapperGenericsHelper<UserAccount, UserAccountModel>.Convert(existingUser);
+                }
+            }
+            return null;
         }
 
     }

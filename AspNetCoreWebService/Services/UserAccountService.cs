@@ -22,9 +22,14 @@ namespace AspNetCoreWebService.Services
             return UserAccountRepository.GetUserAccountsByType(typeId);
         }
 
-        internal static UserAccountModel CreateUser(UserAccountModel inputModel)
+        internal static UserAccountModel CreateUserAccount(UserAccountModel inputModel)
         {
             return UserAccountRepository.CreateUser(inputModel);
+        }
+
+        internal static UserAccountModel UpdateUserAccount(UserAccountModel userAccountModel)
+        {
+            return UserAccountRepository.UpdateUserAccount(userAccountModel);
         }
     }
 }

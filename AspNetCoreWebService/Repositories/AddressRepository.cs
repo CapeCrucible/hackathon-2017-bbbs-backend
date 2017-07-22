@@ -27,5 +27,25 @@ namespace AspNetCoreWebService.Repositories
                 return AutoMapperGenericsHelper<UserAddress, UserAddressModel>.Convert(newAddress.Entity);
             }
         }
+
+        public static UserAddressModel UpdateUserAddress(UserAddressModel userAddressModel)
+        {
+            using (var _context = new bbbsDbContext())
+            {
+                var existingUserAddress = _context.UserAddresses.FirstOrDefault(x => x.Id == userAddressModel.Id);
+
+                if (existingUserAddress != null)
+                {
+                    existingUserAddress.StreetLine1 = userAddressModel.StreetLine1;
+                    existingUserAddress.StreetLine2 = userAddressModel.StreetLine2;
+                    existingUserAddress.City = userAddressModel.City;
+                    existingUserAddress.State = userAddressModel.State;
+                    existingUserAddress.Zip = userAddressModel.Zip;
+                    _context.SaveChanges();
+                    return AutoMapperGenericsHelper<UserAddress, UserAddressModel>.Convert(existingUserAddress);
+                }
+            }
+            return null;
+        }
     }
 }

@@ -19,5 +19,7 @@ namespace AspNetCoreWebService.Context
         public DbSet<InterestUserMap> InterestUserMaps { get; set; }
         public DbSet<UserAddress> UserAddresses { get; set; }
         public DbSet<UserType> UserTypes { get; set; }
+        public DbSet<LittleParentMap> LittleParentMaps { get; set; }
+        public DbSet<BigLittleParentMap> BigLittleParentMaps { get; set; }
     }
 }

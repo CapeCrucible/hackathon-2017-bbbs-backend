@@ -12,7 +12,7 @@ namespace AspNetCoreWebService.Services
     {
         internal static IEnumerable<UserTypeModel> GetAllUserTypes()
         {
-            return bbbsDbRepository.GetAllUserTypes();
+            return TypesRepository.GetAllUserTypes();
         }
     }
 }

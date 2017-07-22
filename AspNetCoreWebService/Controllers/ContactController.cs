@@ -13,7 +13,7 @@ namespace AspNetCoreWebService.Controllers
     {
         // GET: api/values
         [HttpGet]
-        [Route("GetAllUserTypes")]
+        [Route("GetUserContactInfo")]
         public ContactInfoModel GetUserContactInfo(int userId)
         {
             return ContactInfoService.GetUserContactInfo(userId);

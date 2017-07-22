@@ -57,14 +57,17 @@ namespace AspNetCoreWebService.Controllers
 
         [HttpPost]
         [Route("CreateConsolidatedUser")]
-        public ConsolidatedUserInformationModel CreateConsolidatedUser(ConsolidatedUserInformationModel model)
+        public ConsolidatedUserInformationResponseModel CreateConsolidatedUser(ConsolidatedUserInformationModel model)
         {
-            ConsolidatedUserInformationModel newModel = new ConsolidatedUserInformationModel();
+            ConsolidatedUserInformationResponseModel newModel = new ConsolidatedUserInformationResponseModel
+            {
+                UserAccountModel = UserAccountService.CreateUserAccount(model.UserAccountModel),
+                UserAddressModel = AddressService.CreateUserAddress(model.UserAddressModel)
+            };
 
-            newModel.UserAccountModel = UserAccountService.CreateUserAccount(model.UserAccountModel);
-            newModel.UserAddressModel = AddressService.CreateUserAddress(model.UserAddressModel);
             model.ContactInfoModel.AddressId = newModel.UserAddressModel.Id;
             newModel.ContactInfoModel = ContactInfoService.CreateUserContactInfo(model.ContactInfoModel);
+            newModel.InterestModels = InterestService.GetUserInterests(newModel.UserAccountModel.Id);
 
             return newModel;
         }

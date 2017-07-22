@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace AspNetCoreWebService.Repositories
+namespace AspNetCoreWebService.Helpers
 {
-    public class bbbsRepository
+    public class DtoToContext
     {
-        //public List<>
-
     }
 }

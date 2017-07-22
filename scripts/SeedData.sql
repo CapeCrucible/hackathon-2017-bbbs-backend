@@ -16,20 +16,20 @@ VALUES ('Admin');
 
 --User Account 
 
-INSERT INTO UserAccounts (UserName, UserTypeId, FirstName, LastName)
-VALUES ('T_Tiger', 1, 'Tony', 'Tiger');
+INSERT INTO UserAccounts (UserName, UserTypeId, FirstName, LastName, Password)
+VALUES ('T_Tiger', 1, 'Tony', 'Tiger', 'T_Tiger');
 
-INSERT INTO UserAccounts (UserName, UserTypeId, FirstName, LastName)
-VALUES ('C_Cubb', 2, 'Corey', 'Cubb');
+INSERT INTO UserAccounts (UserName, UserTypeId, FirstName, LastName, Password)
+VALUES ('C_Cubb', 2, 'Corey', 'Cubb', 'C_Cubb');
 
-INSERT INTO UserAccounts (UserName, UserTypeId, FirstName, LastName)
-VALUES ('B_Cubb', 3, 'Brenda', 'Cubb');
+INSERT INTO UserAccounts (UserName, UserTypeId, FirstName, LastName, Password)
+VALUES ('B_Cubb', 3, 'Brenda', 'Cubb', 'B_Cubb');
 
-INSERT INTO UserAccounts (UserName, UserTypeId, FirstName, LastName)
-VALUES ('ADMIN_1', 4, 'Jannice', 'Glass');
+INSERT INTO UserAccounts (UserName, UserTypeId, FirstName, LastName, Password)
+VALUES ('ADMIN_1', 4, 'Jannice', 'Glass', 'ADMIN_1');
 
-INSERT INTO UserAccounts (UserName, UserTypeId, FirstName, LastName)
-VALUES ('L_Brock', 1, 'Larry', 'Brock');
+INSERT INTO UserAccounts (UserName, UserTypeId, FirstName, LastName, Password)
+VALUES ('L_Brock', 1, 'Larry', 'Brock', 'L_Brock');
 
 
 --Addresses

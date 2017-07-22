@@ -18,5 +18,20 @@ namespace AspNetCoreWebService.Services
         {
             return UserMappingRepository.CreateBigLittleParentMapModel(inputModel);
         }
+
+        internal static List<UserAccountModel> FindUnmatchedBigs()
+        {
+            return UserMappingRepository.FindUnmatchedBigs();
+        }
+
+        internal static List<UserAccountModel> FindUnmatchedLittles()
+        {
+            return UserMappingRepository.FindUnmatchedLittles();
+        }
+
+        internal static UserAccountModel FindParentForLittle(int littleId)
+        {
+            return UserMappingRepository.FindParentForLittle(littleId);
+        }
     }
 }

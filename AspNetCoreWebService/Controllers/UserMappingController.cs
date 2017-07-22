@@ -24,5 +24,26 @@ namespace AspNetCoreWebService.Controllers
         {
             return UserMappingService.CreateBigLittleParentMap(inputModel);
         }
+
+        [HttpGet]
+        [Route("FindUnmatchedBigs")]
+        public List<UserAccountModel> FindUnmatchedBigs()
+        {
+            return UserMappingService.FindUnmatchedBigs();
+        }
+
+        [HttpGet]
+        [Route("FindUnmatchedLittles")]
+        public List<UserAccountModel> FindUnmatchedLittles()
+        {
+            return UserMappingService.FindUnmatchedLittles();
+        }
+
+        [HttpGet]
+        [Route("FindParentForLittle/{littleId}")]
+        public UserAccountModel FindParentForLittle(int littleId)
+        {
+            return UserMappingService.FindParentForLittle(littleId);
+        }
     }
 }

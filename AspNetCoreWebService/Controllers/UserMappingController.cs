@@ -45,5 +45,19 @@ namespace AspNetCoreWebService.Controllers
         {
             return UserMappingService.FindParentForLittle(littleId);
         }
+
+        [HttpGet]
+        [Route("GetMatch/{matchId}")]
+        public MatchedBigLittleParentModel GetMatch(int matchId)
+        {
+            return UserMappingService.GetMatch(matchId);
+        }
+
+        [HttpGet]
+        [Route("GetAllMatches")]
+        public List<MatchedBigLittleParentModel> GetAllMatches()
+        {
+            return UserMappingService.GetAllMatches();
+        }
     }
 }

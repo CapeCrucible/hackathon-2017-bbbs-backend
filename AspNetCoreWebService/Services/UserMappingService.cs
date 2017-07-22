@@ -33,5 +33,15 @@ namespace AspNetCoreWebService.Services
         {
             return UserMappingRepository.FindParentForLittle(littleId);
         }
+
+        internal static MatchedBigLittleParentModel GetMatch(int matchId)
+        {
+            return UserMappingRepository.GetMatch(matchId);
+        }
+
+        internal static List<MatchedBigLittleParentModel> GetAllMatches()
+        {
+            return UserMappingRepository.GetAllMatches();
+        }
     }
 }

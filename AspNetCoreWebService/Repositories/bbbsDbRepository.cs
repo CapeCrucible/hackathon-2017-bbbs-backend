@@ -12,7 +12,7 @@ namespace AspNetCoreWebService.Repositories
     {
         UserAccountModel GetUser(int userId)
         {
-            using (var _context = new bbbsDbContext(new Microsoft.EntityFrameworkCore.DbContextOptions<bbbsDbContext>()))
+            using (var _context = new bbbsDbContext())
             {
                 UserAccount userAccount = _context.UserAccounts.FirstOrDefault(x => x.Id == userId);
                 return new UserAccountModel
@@ -29,16 +29,27 @@ namespace AspNetCoreWebService.Repositories
         //TODO: Use helper mapper for this method
         List<UserAccountModel> GetUsersByType(int typeId)
         {
-            using (var _context = new bbbsDbContext(new Microsoft.EntityFrameworkCore.DbContextOptions<bbbsDbContext>()))
+            using (var _context = new bbbsDbContext())
             {
-                //return _context.UserAccounts.Where(x => x.UserTypeId == typeId).ToList();
-                return null;
+                List<UserAccountModel> userAccountModels = new List<UserAccountModel>(); 
+                foreach(var userAccount in _context.UserAccounts.Where(x => x.UserTypeId == typeId).ToList())
+                {
+                    userAccountModels.Add(new UserAccountModel
+                    {
+                        Id = userAccount.Id,
+                        FirstName = userAccount.FirstName,
+                        LastName = userAccount.LastName,
+                        UserName = userAccount.UserName,
+                        UserTypeId = userAccount.UserTypeId
+                    });
+                }
+                return userAccountModels;
             }
         }
 
         ContactInfoModel GetUserContactInfo(int userId)
         {
-            using (var _context = new bbbsDbContext(new Microsoft.EntityFrameworkCore.DbContextOptions<bbbsDbContext>()))
+            using (var _context = new bbbsDbContext())
             {
                 ContactInfo contactInfo = _context.ContactInfo.FirstOrDefault(x =>x.UserAccountId == userId);
                 return new ContactInfoModel
@@ -54,7 +65,7 @@ namespace AspNetCoreWebService.Repositories
 
         UserAddressModel GetAddress(int addressId)
         {
-            using (var _context = new bbbsDbContext(new Microsoft.EntityFrameworkCore.DbContextOptions<bbbsDbContext>()))
+            using (var _context = new bbbsDbContext())
             {
                 UserAddress userAddress = _context.UserAddresses.FirstOrDefault(x => x.Id == addressId);
                 
@@ -63,40 +74,42 @@ namespace AspNetCoreWebService.Repositories
 
         }
 
-        List<Interest> GetUserInterests(int userId)
+        List<InterestModel> GetUserInterests(int userId)
         {
-            from interests i in dbEntities
-            join interest_user_map ium on i.id equals ium.interest_id
-            join user_account ua on ium.user_id equals ua.id
-            where ua.id == userId
-}
+            using (var _context = new bbbsDbContext())
+            {
+                List<Interest> interests = (from Interest i in _context.Interests
+                 join InterestUserMap ium in _context.InterestUserMaps on i.Id equals ium.InterestId
+                 join UserAccount ua in _context.UserAccounts on ium.UserAccountId equals ua.Id
+                 where ua.Id == userId
+                 select i).Distinct().ToList();
 
-        User CreateUser(UserModel userModel)
-        {
-            dbEntities.Users.Add(MapUserModelToUserDto(userModel));
-            dbEntities.SaveChanges();
-            return dbEntities.Select(x->x.id == userModel.id).FirstOrDefault();
+                List<InterestModel> interestModels = new List<InterestModel>();
+                foreach(var interest in interests)
+                {
+                    interestModels.Add(new InterestModel
+                    {
+                        Id = interest.Id,
+                        InterestName = interest.InterestName
+                    });
+                }
+                return interestModels;
+            }
         }
 
-        private UserModel MapUserDtoToUserModel(User userDto)
+        UserAccountModel CreateUser(UserAccountModel userModel)
         {
-            return new UserModel(
-                userDto.UserName,
-                userDto.TypeId,
-                userDto.FirstName,
-                userDto.LastName
-            );
+            using (var _context = new bbbsDbContext())
+            {
+                _context.UserAccounts.Add(new UserAccount{
+                    FirstName = userModel.FirstName,
+                    LastName = userModel.LastName,
+                    UserName = userModel.UserName,
+                    UserTypeId = userModel.UserTypeId
+                });
+                _context.SaveChanges();
+                return null;
+            }
         }
-
-        private User MapUserModelToUserDto(UserModel userModel)
-        {
-            return new User(
-                userModel.UserName,
-                userModel.TypeId,
-                userModel.FirstName,
-                userModel.LastName
-            );
-        }
-
     }
 }

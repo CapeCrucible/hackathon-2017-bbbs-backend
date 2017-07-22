@@ -14,6 +14,7 @@ namespace AspNetCoreWebService.DTOs
         public int AddressId { get; set; }
         public virtual UserAddressModel UserAddress { get; set; }
 
+        public string Email { get; set; }
 
         public int UserId { get; set; }
         public virtual UserAccountModel UserAccount { get; set; }

@@ -11,6 +11,7 @@ using AspNetCoreWebService.Context;
 using Microsoft.EntityFrameworkCore;
 using AspNetCoreWebService.Context.Models;
 
+
 namespace AspNetCoreWebService
 {
     public class Startup
@@ -35,6 +36,8 @@ namespace AspNetCoreWebService
 
             var connection = @"Data Source=ccbbbsdb.co1ic5cxttaa.us-east-1.rds.amazonaws.com;Initial Catalog=bbbs2017db;Persist Security Info=True;User ID=bbbsuser;Password=1bbbsHackathon!";
             services.AddDbContext<bbbsDbContext>(options => options.UseSqlServer(connection));
+
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

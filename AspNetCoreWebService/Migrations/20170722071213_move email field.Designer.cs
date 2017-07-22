@@ -8,9 +8,10 @@ using AspNetCoreWebService.Context;
 namespace AspNetCoreWebService.Migrations
 {
     [DbContext(typeof(bbbsDbContext))]
-    partial class bbbsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170722071213_move email field")]
+    partial class moveemailfield
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -21,13 +22,17 @@ namespace AspNetCoreWebService.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("AddressId");
+
                     b.Property<string>("Email");
 
                     b.Property<string>("PhoneNumber");
 
-                    b.Property<int>("UserAccountId");
+                    b.Property<int?>("UserAccountId");
 
-                    b.Property<int>("UserAddressId");
+                    b.Property<int?>("UserAddressId");
+
+                    b.Property<int>("UserId");
 
                     b.HasKey("Id");
 
@@ -125,13 +130,11 @@ namespace AspNetCoreWebService.Migrations
                 {
                     b.HasOne("AspNetCoreWebService.Context.Models.UserAccount", "UserAccount")
                         .WithMany()
-                        .HasForeignKey("UserAccountId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserAccountId");
 
                     b.HasOne("AspNetCoreWebService.Context.Models.UserAddress", "UserAddress")
                         .WithMany()
-                        .HasForeignKey("UserAddressId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserAddressId");
                 });
 
             modelBuilder.Entity("AspNetCoreWebService.Context.Models.InterestUserMap", b =>

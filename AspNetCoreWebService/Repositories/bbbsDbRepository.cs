@@ -11,35 +11,9 @@ namespace AspNetCoreWebService.Repositories
 {
     public class bbbsDbRepository
     {
-        public static UserAccountModel GetUser(int userId)
-        {
-            using (var _context = new bbbsDbContext())
-            {
-                return AutoMapperGenericsHelper<UserAccount, UserAccountModel>.Convert(
-                    _context.UserAccounts.FirstOrDefault(x => x.Id == userId));
-            }
-        }
         
-        public static List<UserAccountModel> GetUsersByType(int typeId)
-        {
-            using (var _context = new bbbsDbContext())
-            {
-                List<UserAccountModel> userAccountModels = new List<UserAccountModel>(); 
-                foreach(var userAccount in _context.UserAccounts.Where(x => x.UserTypeId == typeId).ToList())
-                {
-                    userAccountModels.Add(AutoMapperGenericsHelper<UserAccount, UserAccountModel>.Convert(userAccount));
-                }
-                return userAccountModels;
-            }
-        }
 
-        public static ContactInfoModel GetUserContactInfo(int userId)
-        {
-            using (var _context = new bbbsDbContext())
-            {
-                return AutoMapperGenericsHelper<ContactInfo, ContactInfoModel>.Convert(_context.ContactInfo.FirstOrDefault(x => x.UserAccountId == userId));
-            }
-        }
+        
 
         public static UserAddressModel GetAddress(int addressId)
         {

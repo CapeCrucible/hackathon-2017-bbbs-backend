@@ -8,18 +8,15 @@ using System.Threading.Tasks;
 
 namespace AspNetCoreWebService.Controllers
 {
+    [Route("api/[controller]")]
     public class UserController
     {
-        [Route("api/[controller]")]
-        public class TypesController : Controller
+        // GET: api/values
+        [HttpGet]
+        [Route("GetAllUserTypes")]
+        public IEnumerable<UserTypeModel> GetAllUserTypes()
         {
-            // GET: api/values
-            [HttpGet]
-            [Route("GetAllUserTypes")]
-            public IEnumerable<UserTypeModel> GetAllUserTypes()
-            {
-                return TypeService.GetAllUserTypes();
-            }
+            return TypeService.GetAllUserTypes();
         }
     }
 }

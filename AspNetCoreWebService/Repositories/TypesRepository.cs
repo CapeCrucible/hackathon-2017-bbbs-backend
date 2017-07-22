@@ -2,12 +2,8 @@
 using AspNetCoreWebService.Context.Models;
 using AspNetCoreWebService.DTOs;
 using Catalog.Common.Utilities;
-using System;
 using System.Collections.Generic;
-using AspNetCoreWebService.Context;
-using AspNetCoreWebService.Context.Models;
-using AspNetCoreWebService.DTOs;
-using Catalog.Common.Utilities;
+
 
 namespace AspNetCoreWebService.Repositories
 {

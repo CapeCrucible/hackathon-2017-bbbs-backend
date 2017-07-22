@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AspNetCoreWebService.Context;
+﻿using AspNetCoreWebService.Context;
 using AspNetCoreWebService.Context.Models;
 using AspNetCoreWebService.DTOs;
 using Catalog.Common.Utilities;

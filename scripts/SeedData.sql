@@ -53,19 +53,19 @@ VALUES ('777 Sunny Ln', 'Cape Girardeau', 'MO', 63701);
 --Contact Info
 
 INSERT INTO contact_info (phone_number, address_id, user_id, email)
-VALUES (3145551234, 1, 1, 'Ttiger@gmail.com');
+VALUES ('314-555-1234', 1, 1, 'Ttiger@gmail.com');
 
 INSERT INTO contact_info (phone_number, address_id, user_id, email)
-VALUES (5575445085, 2, 2, 'Bcubb@gmail.com');
+VALUES ('557-544-5085', 2, 2, 'Bcubb@gmail.com');
 
 INSERT INTO contact_info (phone_number, address_id, user_id, email)
-VALUES (5575445085, 3, 3, 'Bcubb@gmail.com');
+VALUES ('557-544-5085', 3, 3, 'Bcubb@gmail.com');
 
 INSERT INTO contact_info (phone_number, address_id, user_id, email)
-VALUES (5733390184, 4, 4, 'Jglass@bigbrosANDsisters.com');
+VALUES ('573-339-0184', 4, 4, 'Jglass@bigbrosANDsisters.com');
 
 INSERT INTO contact_info (phone_number, address_id, user_id, email)
-VALUES (5557890123, 5, 5, 'Lbrock@gmail.com');
+VALUES ('555-789-0123', 5, 5, 'Lbrock@gmail.com');
 
 
 --Interest Table 

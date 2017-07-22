@@ -18,5 +18,29 @@ namespace AspNetCoreWebService.Controllers
         {
             return TypeService.GetAllUserTypes();
         }
+
+        // GET: api/values
+        [HttpGet]
+        [Route("User/{userId}")]
+        public UserAccountModel GetUserAccount(int userId)
+        {
+            return UserAccountService.GetUserAccount(userId);
+        }
+
+        // GET: api/values
+        [HttpGet]
+        [Route("UsersByType/{typeId}")]
+        public IEnumerable<UserAccountModel> GetUserAccountsByType(int typeId)
+        {
+            return UserAccountService.GetUserAccountsByType(typeId);
+        }
+
+        // GET: api/values
+        [HttpPost]
+        [Route("CreateUser")]
+        public UserAccountModel CreateUser(UserAccountModel inputModel)
+        {
+            return UserAccountService.CreateUser(inputModel);
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AspNetCoreWebService.Context.Models;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.EntityFrameworkCore.Metadata;
+using System.Linq;
 
 namespace AspNetCoreWebService.Context
 {
@@ -21,5 +22,15 @@ namespace AspNetCoreWebService.Context
         public DbSet<UserType> UserTypes { get; set; }
         public DbSet<LittleParentMap> LittleParentMaps { get; set; }
         public DbSet<BigLittleParentMap> BigLittleParentMaps { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelbuilder)
+        {
+            foreach (var relationship in modelbuilder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+            {
+                relationship.DeleteBehavior = DeleteBehavior.Restrict;
+            }
+
+            base.OnModelCreating(modelbuilder);
+        }
     }
 }

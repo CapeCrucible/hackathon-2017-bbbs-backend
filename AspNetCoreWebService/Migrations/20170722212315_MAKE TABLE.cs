@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace AspNetCoreWebService.Migrations
 {
-    public partial class createmigration : Migration
+    public partial class MAKETABLE : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -72,7 +72,7 @@ namespace AspNetCoreWebService.Migrations
                         column: x => x.UserTypeId,
                         principalTable: "UserTypes",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -94,13 +94,13 @@ namespace AspNetCoreWebService.Migrations
                         column: x => x.UserAccountId,
                         principalTable: "UserAccounts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ContactInfo_UserAddresses_UserAddressId",
                         column: x => x.UserAddressId,
                         principalTable: "UserAddresses",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -120,13 +120,13 @@ namespace AspNetCoreWebService.Migrations
                         column: x => x.InterestId,
                         principalTable: "Interests",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_InterestUserMaps_UserAccounts_UserAccountId",
                         column: x => x.UserAccountId,
                         principalTable: "UserAccounts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -146,13 +146,13 @@ namespace AspNetCoreWebService.Migrations
                         column: x => x.LittleId,
                         principalTable: "UserAccounts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_LittleParentMaps_UserAccounts_ParentId",
                         column: x => x.ParentId,
                         principalTable: "UserAccounts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -172,13 +172,13 @@ namespace AspNetCoreWebService.Migrations
                         column: x => x.BigId,
                         principalTable: "UserAccounts",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_BigLittleParentMaps_LittleParentMaps_LittleParentMapId",
                         column: x => x.LittleParentMapId,
                         principalTable: "LittleParentMaps",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(

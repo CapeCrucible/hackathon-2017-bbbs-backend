@@ -8,8 +8,8 @@ using AspNetCoreWebService.Context;
 namespace AspNetCoreWebService.Migrations
 {
     [DbContext(typeof(bbbsDbContext))]
-    [Migration("20170722210733_create-migration")]
-    partial class createmigration
+    [Migration("20170722212315_MAKE TABLE")]
+    partial class MAKETABLE
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -164,60 +164,51 @@ namespace AspNetCoreWebService.Migrations
                 {
                     b.HasOne("AspNetCoreWebService.Context.Models.UserAccount", "UserAccount")
                         .WithMany()
-                        .HasForeignKey("BigId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("BigId");
 
                     b.HasOne("AspNetCoreWebService.Context.Models.LittleParentMap", "LittleParentMap")
                         .WithMany()
-                        .HasForeignKey("LittleParentMapId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("LittleParentMapId");
                 });
 
             modelBuilder.Entity("AspNetCoreWebService.Context.Models.ContactInfo", b =>
                 {
                     b.HasOne("AspNetCoreWebService.Context.Models.UserAccount", "UserAccount")
                         .WithMany()
-                        .HasForeignKey("UserAccountId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserAccountId");
 
                     b.HasOne("AspNetCoreWebService.Context.Models.UserAddress", "UserAddress")
                         .WithMany()
-                        .HasForeignKey("UserAddressId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserAddressId");
                 });
 
             modelBuilder.Entity("AspNetCoreWebService.Context.Models.InterestUserMap", b =>
                 {
                     b.HasOne("AspNetCoreWebService.Context.Models.Interest", "Interest")
                         .WithMany()
-                        .HasForeignKey("InterestId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("InterestId");
 
                     b.HasOne("AspNetCoreWebService.Context.Models.UserAccount", "UserAccount")
                         .WithMany()
-                        .HasForeignKey("UserAccountId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserAccountId");
                 });
 
             modelBuilder.Entity("AspNetCoreWebService.Context.Models.LittleParentMap", b =>
                 {
                     b.HasOne("AspNetCoreWebService.Context.Models.UserAccount", "Little")
                         .WithMany()
-                        .HasForeignKey("LittleId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("LittleId");
 
                     b.HasOne("AspNetCoreWebService.Context.Models.UserAccount", "Parent")
                         .WithMany()
-                        .HasForeignKey("ParentId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ParentId");
                 });
 
             modelBuilder.Entity("AspNetCoreWebService.Context.Models.UserAccount", b =>
                 {
                     b.HasOne("AspNetCoreWebService.Context.Models.UserType", "UserType")
                         .WithMany()
-                        .HasForeignKey("UserTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("UserTypeId");
                 });
         }
     }

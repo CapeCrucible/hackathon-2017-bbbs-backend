@@ -1,10 +1,10 @@
 version: 0.0
 os: linux
 files:
-  - source: Bbbs2017backend/build_output
-    destination: /home/ubuntu/Bbbs2017backend
+  - source: AspNetCoreWebService/build_output
+    destination: /home/ubuntu/aspnetcoreservice
   - source: scripts/virtualhost.conf
-    destination: /home/ubuntu/Bbbs2017backend 
+    destination: /home/ubuntu/aspnetcoreservice 
 hooks:
   ApplicationStop:
     - location: scripts/stop_service

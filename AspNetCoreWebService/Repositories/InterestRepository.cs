@@ -10,7 +10,7 @@ namespace AspNetCoreWebService.Repositories
 {
     public class InterestRepository
     {
-        public InterestModel CreateInterest(InterestModel interestModel)
+        public static InterestModel CreateInterest(InterestModel interestModel)
         {
             using (var _context = new bbbsDbContext())
             {
@@ -20,7 +20,7 @@ namespace AspNetCoreWebService.Repositories
             }
         }
 
-        public InterestUserMapModel CreateInterestUserMap(InterestUserMapModel mapModel)
+        public static InterestUserMapModel CreateInterestUserMap(InterestUserMapModel mapModel)
         {
             using (var _context = new bbbsDbContext())
             {

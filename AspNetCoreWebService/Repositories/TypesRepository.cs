@@ -22,7 +22,7 @@ namespace AspNetCoreWebService.Repositories
                 return modelList;
             }
         }
-        public UserTypeModel CreateUserContactInfo(UserTypeModel userTypeModel)
+        public static UserTypeModel CreateUserContactInfo(UserTypeModel userTypeModel)
         {
             using (var _context = new bbbsDbContext())
             {

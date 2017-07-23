@@ -63,12 +63,12 @@ namespace AspNetCoreWebService.Controllers
         {
             var newModel = new ConsolidatedUserInformationResponseModel
             {
-                UserAccountViewModel = TransformHelpers.ModelToUserAccountViewModel(UserAccountService.CreateUserAccount(Model.UserAccountModel)),
-                UserAddressModel = AddressService.CreateUserAddress(Model.UserAddressModel)
+                user = TransformHelpers.ModelToUserAccountViewModel(UserAccountService.CreateUserAccount(Model.UserAccountModel)),
+                address = AddressService.CreateUserAddress(Model.UserAddressModel)
             };
 
-            Model.ContactInfoModel.UserAddressId = newModel.UserAddressModel.Id;
-            newModel.ContactInfoModel = ContactInfoService.CreateUserContactInfo(Model.ContactInfoModel);
+            Model.ContactInfoModel.UserAddressId = newModel.address.Id;
+            newModel.contactInfo = ContactInfoService.CreateUserContactInfo(Model.ContactInfoModel);
 
             foreach (var Interest in Model.InterestModels)
             {
@@ -81,7 +81,7 @@ namespace AspNetCoreWebService.Controllers
                 InterestService.CreateInterestUserMap(NewMapping);
             }
 
-            newModel.InterestModels = InterestService.GetUserInterests(Model.UserAccountModel.Id);
+            newModel.interests = InterestService.GetUserInterests(Model.UserAccountModel.Id);
 
             return newModel;
         }
@@ -93,13 +93,13 @@ namespace AspNetCoreWebService.Controllers
         {
             var newModel = new ConsolidatedUserInformationResponseModel();
 
-            newModel.UserAccountViewModel = TransformHelpers.ModelToUserAccountViewModel(UserAccountService.GetUserAccount(UserId));
-            newModel.UserAddressModel = AddressService.GetAddressForUser(UserId);
+            newModel.user = TransformHelpers.ModelToUserAccountViewModel(UserAccountService.GetUserAccount(UserId));
+            newModel.address = AddressService.GetAddressForUser(UserId);
 
-            newModel.ContactInfoModel.UserAddressId = newModel.UserAddressModel.Id;
-            newModel.ContactInfoModel = ContactInfoService.GetUserContactInfo(UserId);
+            newModel.contactInfo.UserAddressId = newModel.address.Id;
+            newModel.contactInfo = ContactInfoService.GetUserContactInfo(UserId);
 
-            newModel.InterestModels = InterestService.GetUserInterests(UserId);
+            newModel.interests = InterestService.GetUserInterests(UserId);
 
             return newModel;
         }

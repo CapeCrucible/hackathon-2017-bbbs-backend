@@ -6,14 +6,14 @@ namespace AspNetCoreWebService.DTOs
     {
         public ConsolidatedUserInformationResponseModel()
         {
-            UserAccountViewModel = new UserAccountViewModel();
-            UserAddressModel = new UserAddressModel();
-            ContactInfoModel = new ContactInfoModel();
+            user = new UserAccountViewModel();
+            address = new UserAddressModel();
+            contactInfo = new ContactInfoModel();
         }
 
-        public UserAccountViewModel UserAccountViewModel;
-        public UserAddressModel UserAddressModel;
-        public ContactInfoModel ContactInfoModel;
-        public IEnumerable<InterestModel> InterestModels;
+        public UserAccountViewModel user;
+        public UserAddressModel address;
+        public ContactInfoModel contactInfo;
+        public IEnumerable<InterestModel> interests;
     }
 }

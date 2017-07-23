@@ -10,5 +10,11 @@ namespace AspNetCoreWebService.DTOs
         public int MatchId { get; set; }
         public UserAccountModel Big { get; set; }
         public LittleParentMatchModel LittleParentMatch { get; set; }
+
+        public MatchedBigLittleParentModel()
+        {
+            this.Big = new UserAccountModel();
+            this.LittleParentMatch = new LittleParentMatchModel();
+        }
     }
 }

@@ -35,7 +35,15 @@ namespace AspNetCoreWebService.Services
 
         internal static UserAccountViewModel DoLogin(LoginRequestModel requestModel)
         {
-            return TransformHelpers.ModelToUserAccountViewModel(UserAccountRepository.GetUserByLogin(requestModel));
+            var userAccountModel = UserAccountRepository.GetUserByLogin(requestModel);
+            return new UserAccountViewModel()
+            {
+                Id = userAccountModel.Id,
+                UserName = userAccountModel.UserName,
+                UserTypeId = userAccountModel.UserTypeId,
+                FirstName = userAccountModel.FirstName,
+                LastName = userAccountModel.LastName
+            };
         }
     }
 }

@@ -12,7 +12,6 @@ namespace AspNetCoreWebService.Controllers
         [Route("Login")]
         public UserAccountViewModel Login( [FromBody] LoginRequestModel model )
         {
-            
             return UserAccountService.DoLogin(model);
         }
     }

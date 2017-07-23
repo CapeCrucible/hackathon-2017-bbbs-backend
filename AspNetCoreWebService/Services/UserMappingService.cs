@@ -53,5 +53,10 @@ namespace AspNetCoreWebService.Services
         {
             UserMappingRepository.DeleteMatchById(matchId);
         }
+
+        internal static List<ShallowMatchedBigLittleParentModel> GetAllMatchesShallow()
+        {
+            return UserMappingRepository.GetallMatchesShallow();
+        }
     }
 }

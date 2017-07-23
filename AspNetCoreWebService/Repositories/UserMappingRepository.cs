@@ -48,7 +48,6 @@ namespace AspNetCoreWebService.Repositories
                 _context.SaveChanges();
                 mapModel.Id = newMap.Entity.Id;
                 return mapModel;
-                //FINISH THIS METHOD BY MAKING IT POSTABLE
             }
         }
 
@@ -59,6 +58,62 @@ namespace AspNetCoreWebService.Repositories
                 var match = _context.BigLittleParentMaps.FirstOrDefault(x => x.Id == matchId);
                 _context.BigLittleParentMaps.Remove(match);
                 _context.SaveChanges();
+            }
+        }
+
+        internal static List<ShallowMatchedBigLittleParentModel> GetallMatchesShallow()
+        {
+            using (var _context = new bbbsDbContext())
+            {
+                var query = (from blpm in _context.BigLittleParentMaps
+                             join lpm in _context.LittleParentMaps on blpm.LittleParentMapId equals lpm.Id
+                             from ua in _context.UserAccounts
+                             where blpm.BigId == ua.Id || lpm.LittleId == ua.Id || lpm.ParentId == ua.Id
+                             select new UserAccountWithMatchId
+                             {
+                                 MatchId = blpm.Id,
+                                 FirstName = ua.FirstName,
+                                 LastName = ua.LastName,
+                                 Id = ua.Id,
+                                 Password = ua.Password,
+                                 UserName = ua.UserName,
+                                 UserTypeId = ua.UserTypeId
+                             })
+                            .Distinct().ToList();
+
+                var queryDictionary = query.GroupBy(key => new { key.MatchId }, model => new UserAccountModel
+                {
+                    Id = model.Id,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    UserName = model.UserName,
+                    UserTypeId = model.UserTypeId,
+                    Password = model.Password
+                }).ToDictionary(y => y.Key, z => z.ToList());
+
+                List<ShallowMatchedBigLittleParentModel> matches = new List<ShallowMatchedBigLittleParentModel>();
+                foreach (var key in queryDictionary.Keys)
+                {
+                    ShallowMatchedBigLittleParentModel currentMatch = new ShallowMatchedBigLittleParentModel();
+                    foreach (var match in queryDictionary[key])
+                    {
+                        switch (match.UserTypeId)
+                        {
+                            case 1:
+                                currentMatch.Big = TransformHelpers.ModelToUserAccountViewModel(match);
+                                break;
+                            case 2:
+                                currentMatch.Little = TransformHelpers.ModelToUserAccountViewModel(match); ;
+                                break;
+                            case 3:
+                                currentMatch.Parent = TransformHelpers.ModelToUserAccountViewModel(match); ;
+                                break;
+                        }
+                    }
+                    currentMatch.MatchId = key.MatchId;
+                    matches.Add(currentMatch);
+                }
+                return matches;
             }
         }
 

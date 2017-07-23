@@ -60,6 +60,12 @@ namespace AspNetCoreWebService.Controllers
             return UserMappingService.GetAllMatches();
         }
 
+        [Route("GetAllMatchesShallow")]
+        public List<ShallowMatchedBigLittleParentModel> GetAllMatchesShallow()
+        {
+            return UserMappingService.GetAllMatchesShallow();
+        }
+
         [HttpGet]
         [Route("GetMatchByUserAccountId/{userId}")]
         public MatchedBigLittleParentModel GetMatchByUserAccountId(int userId)

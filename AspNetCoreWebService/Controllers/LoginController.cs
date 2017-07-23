@@ -10,14 +10,10 @@ namespace AspNetCoreWebService.Controllers
     {
         [HttpPost]
         [Route("Login")]
-        public UserAccountViewModel Login( [FromBody] JObject jmodel )
+        public UserAccountViewModel Login( [FromBody] LoginRequestModel model )
         {
-            var request = new LoginRequestModel()
-            {
-                UserName = jmodel["UserName"].ToObject<string>(),
-                Password = jmodel["Password"].ToObject<string>()
-            };
-            return UserAccountService.DoLogin(request);
+            
+            return UserAccountService.DoLogin(model);
         }
     }
 

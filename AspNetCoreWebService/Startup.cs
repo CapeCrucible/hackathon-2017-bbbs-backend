@@ -36,7 +36,7 @@ namespace AspNetCoreWebService
             services.AddCors(options => options.AddPolicy("AllowAllOrigins",
                                         builder =>
                                         {
-                                            builder.AllowAnyOrigin();
+                                            builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
                                         }));
             services.AddDbContext<bbbsDbContext>();
 

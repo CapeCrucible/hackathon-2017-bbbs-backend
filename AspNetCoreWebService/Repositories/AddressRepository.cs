@@ -1,6 +1,7 @@
 ﻿using AspNetCoreWebService.Context;
 using AspNetCoreWebService.Context.Models;
 using AspNetCoreWebService.DTOs;
+using AspNetCoreWebService.Helpers;
 using Catalog.Common.Utilities;
 using System.Linq;
 
@@ -63,6 +64,20 @@ namespace AspNetCoreWebService.Repositories
                 }
             }
             return null;
+        }
+
+        public static UserAddressModel GetAddressForUser(int userAccountId)
+        {
+            using (var _context = new bbbsDbContext())
+            {
+                var userAddress = (from address in _context.UserAddresses
+                         join contactinfo in _context.ContactInfo on address.Id equals contactinfo.UserAddressId
+                         join useraccount in _context.UserAccounts on userAccountId equals useraccount.Id
+                         select address
+                    ).FirstOrDefault();
+
+                return TransformHelpers.ModelToAddress(userAddress);
+            }
         }
     }
 }

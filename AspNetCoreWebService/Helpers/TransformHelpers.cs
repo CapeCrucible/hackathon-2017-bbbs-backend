@@ -27,7 +27,7 @@ namespace AspNetCoreWebService.Helpers
             List<UserAccountModel> userAccountModels = new List<UserAccountModel>();
             foreach (var userAccount in UserAccounts)
             {
-                UserAccountToModel(userAccount);
+                userAccountModels.Add(UserAccountToModel(userAccount));
             }
             return userAccountModels;
         }
@@ -42,6 +42,19 @@ namespace AspNetCoreWebService.Helpers
                 Password = account.Password,
                 UserName = account.UserName,
                 UserTypeId = account.UserTypeId
+            };
+        }
+
+        public static UserAddressModel ModelToAddress(UserAddress address)
+        {
+            return new UserAddressModel
+            {
+                City = address.City,
+                Id = address.Id,
+                State = address.State,
+                StreetLine1 = address.StreetLine1,
+                StreetLine2 = address.StreetLine2,
+                Zip = address.Zip
             };
         }
     }

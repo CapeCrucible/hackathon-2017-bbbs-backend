@@ -47,25 +47,17 @@ namespace AspNetCoreWebService.Repositories
             using (var _context = new bbbsDbContext())
             {
                 MatchedBigLittleParentModel matchedBLPM = new MatchedBigLittleParentModel();
-                var query = (from blpm in _context.BigLittleParentMaps
-                             join lpm in _context.LittleParentMaps on blpm.LittleParentMapId equals lpm.Id
-                             from ua in _context.UserAccounts
-                             where blpm.Id == matchId
-                             select new UserAccount
-                             {
-                                 FirstName = ua.FirstName,
-                                 LastName = ua.LastName,
-                                 Id = ua.Id,
-                                 Password = ua.Password,
-                                 UserName = ua.UserName,
-                                 UserTypeId = ua.UserTypeId
-                             })
-                            .Distinct().ToList();
+                var matchedUsers = (from ua in _context.UserAccounts
+                                    from lpm in _context.LittleParentMaps
+                                    from blpm in _context.BigLittleParentMaps
+                                    where lpm.Id == blpm.LittleParentMapId
+                                    && ((blpm.Id == matchId) && (ua.Id == lpm.LittleId || ua.Id == lpm.ParentId || ua.Id == blpm.BigId))
+                                    select ua).Distinct().ToList();
 
-                if (query != null)
+                if (matchedUsers != null)
                 {
                     matchedBLPM.MatchId = matchId;
-                    foreach (var match in query)
+                    foreach (var match in matchedUsers)
                     {
                         switch (match.UserTypeId)
                         {
@@ -141,6 +133,7 @@ namespace AspNetCoreWebService.Repositories
                                 break;
                         }
                     }
+                    currentMatch.MatchId = key.MatchId;
                     matches.Add(currentMatch);
                 }
                 return matches;
@@ -151,9 +144,12 @@ namespace AspNetCoreWebService.Repositories
         {
             using (var _context = new bbbsDbContext())
             {
+                var matchedBigUserAccounts = (from ua in _context.UserAccounts
+                                              join blpm in _context.BigLittleParentMaps on ua.Id equals blpm.BigId
+                                              select ua).Distinct().ToList();
+
                 var unmatchedBigUserAccounts = (from ua in _context.UserAccounts
-                                                join blpm in _context.BigLittleParentMaps on ua.Id equals blpm.BigId into temp
-                                                from blpm in temp.DefaultIfEmpty()
+                                                where !matchedBigUserAccounts.Contains(ua) && ua.UserTypeId == 1
                                                 select ua).Distinct().ToList();
 
                 var unmatchedBigUserAccountModels = TransformHelpers.ListUserAccountToModel(unmatchedBigUserAccounts);
@@ -166,11 +162,14 @@ namespace AspNetCoreWebService.Repositories
         {
             using (var _context = new bbbsDbContext())
             {
+                var matchedLittleAccounts = (from ua in _context.UserAccounts
+                                      join lpm in _context.LittleParentMaps on ua.Id equals lpm.LittleId
+                                      join blpm in _context.BigLittleParentMaps on lpm.Id equals blpm.LittleParentMapId
+                                      select ua).Distinct().ToList();
+
                 var unmatchedLittleAccounts = (from ua in _context.UserAccounts
-                                               join lpm in _context.LittleParentMaps on ua.Id equals lpm.LittleId
-                                               join blpm in _context.BigLittleParentMaps on lpm.Id equals blpm.LittleParentMapId into temp
-                                               from blpm in temp.DefaultIfEmpty()
-                                               select ua).Distinct().ToList();
+                                        where !matchedLittleAccounts.Contains(ua) && ua.UserTypeId == 2
+                                        select ua).Distinct().ToList();
 
                 var unmatchedLittleUserAccounts = TransformHelpers.ListUserAccountToModel(unmatchedLittleAccounts);
 
@@ -182,10 +181,11 @@ namespace AspNetCoreWebService.Repositories
         {
             using (var _context = new bbbsDbContext())
             {
-                var parentAccount = (from ua in _context.UserAccounts
-                                     join lpm in _context.LittleParentMaps on ua.Id equals lpm.LittleId
-                                     where ua.UserTypeId == 3
+                var parentAccount = (from lpm in _context.LittleParentMaps
+                                     from ua in _context.UserAccounts
+                                     where lpm.LittleId == littleId && ua.UserTypeId == 3
                                      select ua).FirstOrDefault();
+
                 if (parentAccount != null)
                     return TransformHelpers.UserAccountToModel(parentAccount);
                 else

@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreWebService.Helpers;
 
 namespace AspNetCoreWebService.Services
 {
@@ -32,9 +33,9 @@ namespace AspNetCoreWebService.Services
             return UserAccountRepository.UpdateUserAccount(userAccountModel);
         }
 
-        internal static UserAccountModel DoLogin(LoginRequestModel requestModel)
+        internal static UserAccountViewModel DoLogin(LoginRequestModel requestModel)
         {
-            return UserAccountRepository.GetUserByLogin(requestModel);
+            return TransformHelpers.ModelToUserAccountViewModel(UserAccountRepository.GetUserByLogin(requestModel));
         }
     }
 }

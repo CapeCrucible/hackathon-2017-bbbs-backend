@@ -17,6 +17,13 @@ namespace AspNetCoreWebService.Controllers
         {
             return InterestService.GetUserInterests(userId);
         }
+        
+        [HttpGet]
+        [Route("GetSharedInterests/{bigId}/{littleId}")]
+        public IEnumerable<InterestModel> GetSharedInterests(int bigId,int littleId)
+        {
+            return InterestService.GetSharedInterest(bigId,littleId);
+        }
 
         [HttpPost]
         [Route("CreateUserInterestMap")]

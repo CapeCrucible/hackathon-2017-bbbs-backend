@@ -103,5 +103,22 @@ namespace AspNetCoreWebService.Helpers
                 UserTypeId = model.UserTypeId
             };
         }
+
+        public static ConsolidatedUserInformationResponseModel UserInputModelToUserResponseModel(ConsolidatedUserInformationInputModel model)
+        {
+            return new ConsolidatedUserInformationResponseModel(){
+                address = model.UserAddress,
+                contactInfo = model.ContactInfo,
+                interests = model.Interests,
+                user = new UserAccountViewModel()
+                {
+                    FirstName = model.UserAccount.FirstName,
+                    LastName = model.UserAccount.LastName,
+                    UserName = model.UserAccount.UserName,
+                    UserTypeId = model.UserAccount.UserTypeId,
+                    Id = model.UserAccount.Id
+                }
+            };
+        }
     }
 }

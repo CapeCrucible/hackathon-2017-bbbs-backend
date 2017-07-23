@@ -29,14 +29,16 @@ namespace AspNetCoreWebService.Repositories
         {
             using (var _context = new bbbsDbContext())
             {
-                var contactInfo = _context.ContactInfo.FirstOrDefault(x => x.UserAccountId == userId);
+                var query = _context.ContactInfo.FirstOrDefault(x => x.UserAccountId == userId);
+                if (query == null)
+                    return null;
                 return new ContactInfoModel
                 {
-                    Id = contactInfo.Id,
-                    UserAddressId = contactInfo.UserAddressId,
-                    Email = contactInfo.Email,
-                    PhoneNumber = contactInfo.PhoneNumber,
-                    UserAccountId = contactInfo.UserAccountId
+                    Id = query.Id,
+                    UserAddressId = query.UserAddressId,
+                    Email = query.Email,
+                    PhoneNumber = query.PhoneNumber,
+                    UserAccountId = query.UserAccountId
                 };
             }
         }

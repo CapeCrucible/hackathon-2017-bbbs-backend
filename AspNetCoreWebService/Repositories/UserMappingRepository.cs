@@ -47,16 +47,25 @@ namespace AspNetCoreWebService.Repositories
             using (var _context = new bbbsDbContext())
             {
                 MatchedBigLittleParentModel matchedBLPM = new MatchedBigLittleParentModel();
-                var matchedUsers = (from ua in _context.UserAccounts
-                                    join lpm in _context.LittleParentMaps on ua.Id equals lpm.LittleId
-                                    join blpm in _context.BigLittleParentMaps on lpm.Id equals blpm.LittleParentMapId
-                                    where blpm.Id == matchId
-                                    select ua).Distinct().ToList();
+                var query = (from blpm in _context.BigLittleParentMaps
+                             join lpm in _context.LittleParentMaps on blpm.LittleParentMapId equals lpm.Id
+                             from ua in _context.UserAccounts
+                             where blpm.Id == matchId
+                             select new UserAccount
+                             {
+                                 FirstName = ua.FirstName,
+                                 LastName = ua.LastName,
+                                 Id = ua.Id,
+                                 Password = ua.Password,
+                                 UserName = ua.UserName,
+                                 UserTypeId = ua.UserTypeId
+                             })
+                            .Distinct().ToList();
 
-                if (matchedUsers != null)
+                if (query != null)
                 {
                     matchedBLPM.MatchId = matchId;
-                    foreach (var match in matchedUsers)
+                    foreach (var match in query)
                     {
                         switch (match.UserTypeId)
                         {

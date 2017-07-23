@@ -66,7 +66,7 @@ namespace AspNetCoreWebService.Controllers
                 UserAddressModel = AddressService.CreateUserAddress(Model.UserAddressModel)
             };
 
-            Model.ContactInfoModel.AddressId = newModel.UserAddressModel.Id;
+            Model.ContactInfoModel.UserAddressId = newModel.UserAddressModel.Id;
             newModel.ContactInfoModel = ContactInfoService.CreateUserContactInfo(Model.ContactInfoModel);
 
             foreach (var Interest in Model.InterestModels)

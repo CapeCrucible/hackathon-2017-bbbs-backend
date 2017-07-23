@@ -12,11 +12,11 @@ namespace AspNetCoreWebService.DTOs
         public string PhoneNumber { get; set; }
 
         public int UserAddressId { get; set; }
-        public virtual UserAddressModel UserAddress { get; set; }
+       // public virtual UserAddressModel UserAddress { get; set; }
 
         public string Email { get; set; }
 
         public int UserAccountId { get; set; }
-        public virtual UserAccountModel UserAccount { get; set; }
+       // public virtual UserAccountModel UserAccount { get; set; }
     }
 }

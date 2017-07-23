@@ -4,9 +4,9 @@ namespace AspNetCoreWebService.DTOs
 {
     public class ConsolidatedUserInformationResponseModel
     {
-        public UserAccountModel UserAccountModel;
-        public UserAddressModel UserAddressModel;
-        public ContactInfoModel ContactInfoModel;
-        public IEnumerable<InterestModel> InterestModels;
+        public UserAccountModel User;
+        public UserAddressModel Address;
+        public ContactInfoModel ContactInfo;
+        public IEnumerable<InterestModel> Interest;
     }
 }

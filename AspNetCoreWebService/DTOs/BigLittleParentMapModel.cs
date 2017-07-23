@@ -10,7 +10,7 @@ namespace AspNetCoreWebService.DTOs
     {
         public int Id { get; set; }
         public int LittleParentMapId { get; set; }
-        public virtual LittleParentMap LittleParentMap { get; set; }
+       // public virtual LittleParentMap LittleParentMap { get; set; }
         public int BigId { get; set; }
     }
 }

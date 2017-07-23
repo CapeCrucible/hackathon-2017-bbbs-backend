@@ -5,6 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using System.Net.Http;
+using Newtonsoft.Json.Linq;
+using Catalog.Common.Utilities;
 
 namespace AspNetCoreWebService.Controllers
 {
@@ -57,31 +61,43 @@ namespace AspNetCoreWebService.Controllers
 
         [HttpPost]
         [Route("CreateConsolidatedUser")]
-        public ConsolidatedUserInformationResponseModel CreateConsolidatedUser(ConsolidatedUserInformationResponseModel Model)
-        
+        public ConsolidatedUserInformationResponseModel CreateConsolidatedUser([FromBody] JObject jmodel )//ConsolidatedUserInformationResponseModel Model)
+
         {
+
+            //var 
+            //var Model = JsonConvert.DeserializeObject<ConsolidatedUserInformationResponseModel>(jmodel.ToString());
+            
+            var Model = new ConsolidatedUserInformationResponseModel()
+            {
+                User = jmodel["user"].ToObject<UserAccountModel>(),
+                Address = jmodel["address"].ToObject<UserAddressModel>(),
+                ContactInfo = jmodel["contactInfo"].ToObject<ContactInfoModel>(),
+                Interest = jmodel["interests"].ToObject<List<InterestModel>>()
+            };
+            
             ConsolidatedUserInformationResponseModel newModel = new ConsolidatedUserInformationResponseModel
             {
-                UserAccountModel = UserAccountService.CreateUserAccount(Model.UserAccountModel),
-                UserAddressModel = AddressService.CreateUserAddress(Model.UserAddressModel)
+                User = UserAccountService.CreateUserAccount(Model.User),
+                Address = AddressService.CreateUserAddress(Model.Address)
             };
 
-            Model.ContactInfoModel.UserAddressId = newModel.UserAddressModel.Id;
-            newModel.ContactInfoModel = ContactInfoService.CreateUserContactInfo(Model.ContactInfoModel);
+            Model.ContactInfo.UserAddressId = newModel.Address.Id;
+            newModel.ContactInfo = ContactInfoService.CreateUserContactInfo(Model.ContactInfo);
 
-            foreach (var Interest in Model.InterestModels)
+            foreach (var Interest in Model.Interest)
             {
                 InterestUserMapModel NewMapping = new InterestUserMapModel
                 {
-                    UserAccountId = Model.UserAccountModel.Id,
+                    UserAccountId = Model.User.Id,
                     InterestId = Interest.Id
                 };
 
                 InterestService.CreateInterestUserMap(NewMapping);
             }
-            
-            newModel.InterestModels = InterestService.GetUserInterests(Model.UserAccountModel.Id);
-            
+
+            newModel.Interest = InterestService.GetUserInterests(Model.User.Id);
+
             return newModel;
         }
     }

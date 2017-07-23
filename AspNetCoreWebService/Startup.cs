@@ -11,6 +11,7 @@ using AspNetCoreWebService.Context;
 using Microsoft.EntityFrameworkCore;
 using AspNetCoreWebService.Context.Models;
 using Microsoft.AspNetCore.Cors;
+using Newtonsoft.Json;
 
 namespace AspNetCoreWebService
 {
@@ -32,7 +33,11 @@ namespace AspNetCoreWebService
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(jsonOptions =>
+            {
+                jsonOptions.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+            }); 
+
             services.AddCors(options => options.AddPolicy("AllowAllOrigins",
                                         builder =>
                                         {

@@ -1,8 +1,6 @@
 ﻿using AspNetCoreWebService.Context;
-using AspNetCoreWebService.Context.Models;
 using AspNetCoreWebService.DTOs;
 using AspNetCoreWebService.Helpers;
-using Catalog.Common.Utilities;
 using System.Collections.Generic;
 using System.Linq;
 

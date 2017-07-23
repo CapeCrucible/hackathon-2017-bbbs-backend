@@ -1,13 +1,9 @@
 ﻿using AspNetCoreWebService.Context;
 using AspNetCoreWebService.Context.Models;
 using AspNetCoreWebService.DTOs;
-using Catalog.Common.Utilities;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using AspNetCoreWebService.Helpers;
-using System.Threading.Tasks;
-using AspNetCoreWebService.Controllers;
 using AspNetCoreWebService.Services;
 
 namespace AspNetCoreWebService.Repositories
@@ -46,7 +42,7 @@ namespace AspNetCoreWebService.Repositories
                     LittleParentMapId = parentLittleMatch.Id,
                 });
                 _context.SaveChanges();
-                mapModel.Id = newMap.Entity.Id;
+                mapModel.MatchId = newMap.Entity.Id;
                 return mapModel;
             }
         }

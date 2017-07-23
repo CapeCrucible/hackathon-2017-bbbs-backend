@@ -2,14 +2,9 @@
 using AspNetCoreWebService.Helpers;
 using AspNetCoreWebService.Services;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using System.Net.Http;
 using Newtonsoft.Json.Linq;
-using Catalog.Common.Utilities;
 
 namespace AspNetCoreWebService.Controllers
 {
@@ -86,17 +81,33 @@ namespace AspNetCoreWebService.Controllers
             Model.ContactInfo.UserAddressId = Model.UserAddress.Id;
             Model.ContactInfo = ContactInfoService.CreateUserContactInfo(Model.ContactInfo);
 
-            foreach (var Interest in Model.Interests)
+            if (Model.Interests != null)
             {
-                var NewMapping = new InterestUserMapModel
+                foreach (var Interest in Model.Interests)
+                {
+                    var NewMapping = new InterestUserMapModel
+                    {
+                        UserAccountId = Model.UserAccount.Id,
+                        InterestId = Interest.Id
+                    };
+
+                    InterestService.CreateInterestUserMap(NewMapping);
+                }
+            }
+            else
+            {
+                //Demonstration Data
+                InterestService.CreateInterestUserMap(new InterestUserMapModel
                 {
                     UserAccountId = Model.UserAccount.Id,
-                    InterestId = Interest.Id
-                };
-
-                InterestService.CreateInterestUserMap(NewMapping);
+                    InterestId = 1
+                });
+                InterestService.CreateInterestUserMap(new InterestUserMapModel
+                {
+                    UserAccountId = Model.UserAccount.Id,
+                    InterestId = 6
+                });
             }
-
             Model.Interests = InterestService.GetUserInterests(Model.UserAccount.Id);
 
             return TransformHelpers.UserInputModelToUserResponseModel(Model);

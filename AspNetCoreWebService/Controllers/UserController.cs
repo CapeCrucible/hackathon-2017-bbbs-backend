@@ -41,65 +41,65 @@ namespace AspNetCoreWebService.Controllers
         }
 
         // GET: api/values
+        //IGNORE THIS SHIT
         [HttpPost]
         [Route("CreateUser")]
         public UserAccountViewModel CreateUser(UserAccountModel inputModel)
         {
             return TransformHelpers.ModelToUserAccountViewModel(UserAccountService.CreateUserAccount(inputModel));
         }
-
+        //IGNORE THIS SHIT
         [HttpPost]
         [Route("UpdateUser")]
-        public ConsolidatedUserInformationModel UpdateUserInformation(ConsolidatedUserInformationModel model)
+        public ConsolidatedUserInformationModel UpdateUserInformation([FromBody] JObject jmodel)
         {
+
+            var model = new ConsolidatedUserInformationInputModel()
+            {
+                UserAccount = jmodel["user"].ToObject<UserAccountModel>(),
+                UserAddress = jmodel["address"].ToObject<UserAddressModel>(),
+                ContactInfo = jmodel["contactInfo"].ToObject<ContactInfoModel>(),
+                Interests = jmodel["interests"].ToObject<List<InterestModel>>()
+            };
             return new ConsolidatedUserInformationModel
             {
-                ContactInfoModel = ContactInfoService.UpdateUserContactInfo(model.ContactInfoModel),
-                UserAccountModel = UserAccountService.UpdateUserAccount(model.UserAccountModel),
-                UserAddressModel = AddressService.UpdateUserAddress(model.UserAddressModel)
+                ContactInfoModel = ContactInfoService.UpdateUserContactInfo(model.ContactInfo),
+                UserAccountModel = UserAccountService.UpdateUserAccount(model.UserAccount),
+                UserAddressModel = AddressService.UpdateUserAddress(model.UserAddress)
             };
         }
 
         [HttpPost]
         [Route("CreateConsolidatedUser")]
-        public ConsolidatedUserInformationResponseModel CreateConsolidatedUser([FromBody] JObject jmodel )//ConsolidatedUserInformationResponseModel Model)
-
+        public ConsolidatedUserInformationResponseModel CreateConsolidatedUser([FromBody] JObject jmodel )
         {
-
-            //var 
-            //var Model = JsonConvert.DeserializeObject<ConsolidatedUserInformationResponseModel>(jmodel.ToString());
-            
             var Model = new ConsolidatedUserInformationResponseModel()
             {
-                User = jmodel["user"].ToObject<UserAccountModel>(),
-                Address = jmodel["address"].ToObject<UserAddressModel>(),
-                ContactInfo = jmodel["contactInfo"].ToObject<ContactInfoModel>(),
-                Interest = jmodel["interests"].ToObject<List<InterestModel>>()
+                user = jmodel["user"].ToObject<UserAccountViewModel>(),
+                address = jmodel["address"].ToObject<UserAddressModel>(),
+                contactInfo = jmodel["contactInfo"].ToObject<ContactInfoModel>(),
+                interests = jmodel["interests"].ToObject<List<InterestModel>>()
             };
-            
-            ConsolidatedUserInformationResponseModel newModel = new ConsolidatedUserInformationResponseModel
-            {
-                user = TransformHelpers.ModelToUserAccountViewModel(UserAccountService.CreateUserAccount(Model.UserAccountModel)),
-                address = AddressService.CreateUserAddress(Model.UserAddressModel)
-            };
+            Model.user = TransformHelpers.ModelToUserAccountViewModel(UserAccountService.CreateUserAccount(TransformHelpers.UserAccountViewModelToModel(Model.user)));
+            Model.address = AddressService.CreateUserAddress(Model.address);
+            Model.contactInfo.UserAccountId = Model.user.Id;
+            Model.contactInfo.UserAddressId = Model.address.Id;
+            Model.contactInfo = ContactInfoService.CreateUserContactInfo(Model.contactInfo);
 
-            Model.ContactInfoModel.UserAddressId = newModel.address.Id;
-            newModel.contactInfo = ContactInfoService.CreateUserContactInfo(Model.ContactInfoModel);
-
-            foreach (var Interest in Model.Interest)
+            foreach (var Interest in Model.interests)
             {
                 var NewMapping = new InterestUserMapModel
                 {
-                    UserAccountId = Model.User.Id,
+                    UserAccountId = Model.user.Id,
                     InterestId = Interest.Id
                 };
 
                 InterestService.CreateInterestUserMap(NewMapping);
             }
 
-            newModel.interests = InterestService.GetUserInterests(Model.UserAccountModel.Id);
+            Model.interests = InterestService.GetUserInterests(Model.user.Id);
 
-            return newModel;
+            return Model;
         }
 
         [HttpGet]

@@ -13,14 +13,14 @@ namespace AspNetCoreWebService.Controllers
     {
         [HttpPost]
         [Route("CreateLittleParentMap")]
-        public LittleParentMapModel CreateLittleParentMap(LittleParentMapModel inputModel)
+        public LittleParentMapModel CreateLittleParentMap([FromBody] LittleParentMapModel inputModel)
         {
             return UserMappingService.CreateLittleParentMap(inputModel);
         }
 
         [HttpPost]
         [Route("CreateBigLittleParentMap")]
-        public BigLittleParentMapModel CreateBigLittleParentMap(BigLittleParentMapModel inputModel)
+        public BigLittleParentMapModel CreateBigLittleParentMap([FromBody] BigLittleParentMapModel inputModel)
         {
             return UserMappingService.CreateBigLittleParentMap(inputModel);
         }

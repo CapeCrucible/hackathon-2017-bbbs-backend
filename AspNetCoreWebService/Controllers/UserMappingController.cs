@@ -70,5 +70,12 @@ namespace AspNetCoreWebService.Controllers
                 return ret;
             return null;
         }
+
+        [HttpGet]
+        [Route("DeleteMatchById/{matchId}")]
+        public void DeleteMatchById(int matchId)
+        {
+            UserMappingService.DeleteMatchById(matchId);
+        }
     }
 }

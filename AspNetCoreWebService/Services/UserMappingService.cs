@@ -48,5 +48,10 @@ namespace AspNetCoreWebService.Services
         {
             return UserMappingRepository.GetMatchByUserAccountId(userId);
         }
+
+        internal static void DeleteMatchById(int matchId)
+        {
+            UserMappingRepository.DeleteMatchById(matchId);
+        }
     }
 }

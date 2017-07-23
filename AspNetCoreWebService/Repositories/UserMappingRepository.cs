@@ -52,6 +52,16 @@ namespace AspNetCoreWebService.Repositories
             }
         }
 
+        internal static void DeleteMatchById(int matchId)
+        {
+            using (var _context = new bbbsDbContext())
+            {
+                var match = _context.BigLittleParentMaps.FirstOrDefault(x => x.Id == matchId);
+                _context.BigLittleParentMaps.Remove(match);
+                _context.SaveChanges();
+            }
+        }
+
         internal static MatchedBigLittleParentModel GetMatchByUserAccountId(int userId)
         {
             using (var _context = new bbbsDbContext())

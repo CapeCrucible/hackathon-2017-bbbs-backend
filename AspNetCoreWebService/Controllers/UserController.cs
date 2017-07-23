@@ -1,4 +1,5 @@
 ﻿using AspNetCoreWebService.DTOs;
+using AspNetCoreWebService.Helpers;
 using AspNetCoreWebService.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -22,25 +23,25 @@ namespace AspNetCoreWebService.Controllers
         // GET: api/values
         [HttpGet]
         [Route("GetUserAccount")]
-        public UserAccountModel GetUserAccount(int userId)
+        public UserAccountViewModel GetUserAccount(int userId)
         {
-            return UserAccountService.GetUserAccount(userId);
+            return TransformHelpers.ModelToUserAccountViewModel(UserAccountService.GetUserAccount(userId));
         }
 
         // GET: api/values
         [HttpGet]
         [Route("UsersByType/{typeId}")]
-        public IEnumerable<UserAccountModel> GetUserAccountsByType(int typeId)
+        public IEnumerable<UserAccountViewModel> GetUserAccountsByType(int typeId)
         {
-            return UserAccountService.GetUserAccountsByType(typeId);
+            return TransformHelpers.ListUserAccountToViewModel(UserAccountService.GetUserAccountsByType(typeId).ToList());
         }
 
         // GET: api/values
         [HttpPost]
         [Route("CreateUser")]
-        public UserAccountModel CreateUser(UserAccountModel inputModel)
+        public UserAccountViewModel CreateUser(UserAccountModel inputModel)
         {
-            return UserAccountService.CreateUserAccount(inputModel);
+            return TransformHelpers.ModelToUserAccountViewModel(UserAccountService.CreateUserAccount(inputModel));
         }
 
         [HttpPost]
@@ -57,12 +58,12 @@ namespace AspNetCoreWebService.Controllers
 
         [HttpPost]
         [Route("CreateConsolidatedUser")]
-        public ConsolidatedUserInformationResponseModel CreateConsolidatedUser(ConsolidatedUserInformationResponseModel Model)
+        public ConsolidatedUserInformationResponseModel CreateConsolidatedUser(ConsolidatedUserInformationInputModel Model)
         
         {
             var newModel = new ConsolidatedUserInformationResponseModel
             {
-                UserAccountModel = UserAccountService.CreateUserAccount(Model.UserAccountModel),
+                UserAccountViewModel = TransformHelpers.ModelToUserAccountViewModel(UserAccountService.CreateUserAccount(Model.UserAccountModel)),
                 UserAddressModel = AddressService.CreateUserAddress(Model.UserAddressModel)
             };
 
@@ -92,7 +93,7 @@ namespace AspNetCoreWebService.Controllers
         {
             var newModel = new ConsolidatedUserInformationResponseModel
             {
-                UserAccountModel = UserAccountService.GetUserAccount(UserId),
+                UserAccountViewModel = TransformHelpers.ModelToUserAccountViewModel(UserAccountService.GetUserAccount(UserId)),
                 UserAddressModel = AddressService.GetAddressForUser(UserId)
             };
 

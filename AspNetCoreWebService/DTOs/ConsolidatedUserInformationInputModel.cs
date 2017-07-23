@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace AspNetCoreWebService.DTOs
 {
-    public class ConsolidatedUserInformationResponseModel
+    public class ConsolidatedUserInformationInputModel
     {
-        public UserAccountViewModel UserAccountViewModel;
+        public UserAccountModel UserAccountModel;
         public UserAddressModel UserAddressModel;
         public ContactInfoModel ContactInfoModel;
         public IEnumerable<InterestModel> InterestModels;

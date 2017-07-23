@@ -57,5 +57,39 @@ namespace AspNetCoreWebService.Helpers
                 Zip = address.Zip
             };
         }
+
+        public static UserAccountViewModel ModelToUserAccountViewModel(UserAccountModel model)
+        {
+            return new UserAccountViewModel
+            {
+                FirstName = model.FirstName,
+                Id = model.Id,
+                LastName = model.LastName,
+                UserName = model.UserName,
+                UserTypeId = model.UserTypeId
+            };
+        }
+
+        public static UserAccountModel UserAccountViewModelToModel(UserAccountViewModel viewModel)
+        {
+            return new UserAccountModel
+            {
+                FirstName = viewModel.FirstName,
+                LastName = viewModel.LastName,
+                UserName = viewModel.UserName,
+                UserTypeId = viewModel.UserTypeId,
+                Id = viewModel.Id
+            };
+        }
+
+        public static List<UserAccountViewModel> ListUserAccountToViewModel(List<UserAccountModel> UserAccounts)
+        {
+            List<UserAccountViewModel> userAccountModels = new List<UserAccountViewModel>();
+            foreach (var userAccount in UserAccounts)
+            {
+                userAccountModels.Add(ModelToUserAccountViewModel(userAccount));
+            }
+            return userAccountModels;
+        }
     }
 }

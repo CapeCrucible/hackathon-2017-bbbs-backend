@@ -19,7 +19,7 @@ namespace AspNetCoreWebService.Controllers
         }
         
         [HttpGet]
-        [Route("GetSharedInterests/{bigId}/{littleId")]
+        [Route("GetSharedInterests/{bigId}/{littleId}")]
         public IEnumerable<InterestModel> GetSharedInterests(int bigId,int littleId)
         {
             return InterestService.GetSharedInterest(bigId,littleId);

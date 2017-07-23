@@ -7,7 +7,7 @@ namespace AspNetCoreWebService.DTOs
 {
     public class LittleParentMatchModel
     {
-        public UserAccountModel Little { get; set; }
-        public UserAccountModel Parent { get; set; }
+        public UserAccountViewModel Little { get; set; }
+        public UserAccountViewModel Parent { get; set; }
     }
 }

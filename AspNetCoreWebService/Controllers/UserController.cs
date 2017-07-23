@@ -33,7 +33,7 @@ namespace AspNetCoreWebService.Controllers
         [Route("UsersByType/{typeId}")]
         public IEnumerable<UserAccountViewModel> GetUserAccountsByType(int typeId)
         {
-            return TransformHelpers.ListUserAccountToViewModel(UserAccountService.GetUserAccountsByType(typeId).ToList());
+            return TransformHelpers.ListUserAccountModelToViewModel(UserAccountService.GetUserAccountsByType(typeId).ToList());
         }
 
         // GET: api/values

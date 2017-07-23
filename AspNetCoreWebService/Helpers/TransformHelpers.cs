@@ -82,7 +82,7 @@ namespace AspNetCoreWebService.Helpers
             };
         }
 
-        public static List<UserAccountViewModel> ListUserAccountToViewModel(List<UserAccountModel> UserAccounts)
+        public static List<UserAccountViewModel> ListUserAccountModelToViewModel(List<UserAccountModel> UserAccounts)
         {
             List<UserAccountViewModel> userAccountModels = new List<UserAccountViewModel>();
             foreach (var userAccount in UserAccounts)
@@ -90,6 +90,18 @@ namespace AspNetCoreWebService.Helpers
                 userAccountModels.Add(ModelToUserAccountViewModel(userAccount));
             }
             return userAccountModels;
+        }
+
+        public static UserAccountViewModel DtoToUserAccountViewModel(UserAccount model)
+        {
+            return new UserAccountViewModel
+            {
+                FirstName = model.FirstName,
+                Id = model.Id,
+                LastName = model.LastName,
+                UserName = model.UserName,
+                UserTypeId = model.UserTypeId
+            };
         }
     }
 }

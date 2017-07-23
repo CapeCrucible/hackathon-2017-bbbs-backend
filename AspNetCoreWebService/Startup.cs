@@ -59,7 +59,7 @@ namespace AspNetCoreWebService
             //}
 
             app.UseStaticFiles();
-
+            app.UseCors("AllowAllOrigins");
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

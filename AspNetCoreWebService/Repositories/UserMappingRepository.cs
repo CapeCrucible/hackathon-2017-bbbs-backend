@@ -108,6 +108,7 @@ namespace AspNetCoreWebService.Repositories
                                 break;
                         }
                     }
+                    matchedBLPM.sharedInterests = InterestService.GetSharedInterest(matchedBLPM.Big.user.Id, matchedBLPM.Little.user.Id).ToList();
                     return matchedBLPM;
                 }
                 else
@@ -176,6 +177,7 @@ namespace AspNetCoreWebService.Repositories
                                 break;
                         }
                     }
+                    currentMatch.sharedInterests = InterestService.GetSharedInterest(currentMatch.Big.user.Id, currentMatch.Little.user.Id).ToList();
                     currentMatch.MatchId = key.MatchId;
                     matches.Add(currentMatch);
                 }

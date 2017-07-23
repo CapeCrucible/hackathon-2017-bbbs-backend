@@ -11,6 +11,7 @@ namespace AspNetCoreWebService.DTOs
         public ConsolidatedUserInformationResponseModel Big { get; set; }
         public ConsolidatedUserInformationResponseModel Little { get; set; }
         public ConsolidatedUserInformationResponseModel Parent { get; set; }
+        public List<InterestModel> sharedInterests { get; set; }
         
 
         public MatchedBigLittleParentModel()
@@ -18,6 +19,7 @@ namespace AspNetCoreWebService.DTOs
             this.Big = new ConsolidatedUserInformationResponseModel();
             this.Little = new ConsolidatedUserInformationResponseModel();
             this.Parent = new ConsolidatedUserInformationResponseModel();
+            this.sharedInterests = new List<InterestModel>();
         }
     }
 }

@@ -35,7 +35,7 @@ namespace AspNetCoreWebService.Controllers
         }
         
         [HttpPost]
-        [Route("CreateUserContactInfo")]
+        [Route("CreateUserAddress")]
         public UserAddressModel CreateUserAddress(UserAddressModel userAddressModel)
         {
             return AddressService.CreateUserAddress(userAddressModel);

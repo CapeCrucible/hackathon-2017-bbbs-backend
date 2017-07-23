@@ -21,7 +21,7 @@ namespace AspNetCoreWebService.Controllers
 
         // GET: api/values
         [HttpGet]
-        [Route("/{userId}")]
+        [Route("GetUserAccount")]
         public UserAccountModel GetUserAccount(int userId)
         {
             return UserAccountService.GetUserAccount(userId);

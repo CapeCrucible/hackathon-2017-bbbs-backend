@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 using AspNetCoreWebService.Context;
 using Microsoft.EntityFrameworkCore;
 using AspNetCoreWebService.Context.Models;
-
+using Microsoft.AspNetCore.Cors;
 
 namespace AspNetCoreWebService
 {
@@ -33,9 +33,13 @@ namespace AspNetCoreWebService
         {
             // Add framework services.
             services.AddMvc();
-
+            services.AddCors(options => options.AddPolicy("AllowAllOrigins",
+                                        builder =>
+                                        {
+                                            builder.AllowAnyOrigin();
+                                        }));
             services.AddDbContext<bbbsDbContext>();
- 
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -46,8 +50,8 @@ namespace AspNetCoreWebService
 
             //if (env.IsDevelopment())
             //{
-                app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
+            app.UseDeveloperExceptionPage();
+            app.UseBrowserLink();
             //}
             //else
             //{
@@ -55,7 +59,7 @@ namespace AspNetCoreWebService
             //}
 
             app.UseStaticFiles();
-
+            app.UseCors("AllowAllOrigins");
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

@@ -62,13 +62,13 @@ namespace AspNetCoreWebService.Repositories
                         switch (match.UserTypeId)
                         {
                             case 1:
-                                matchedBLPM.Big = TransformHelpers.UserAccountToModel(match);
+                                matchedBLPM.Big = TransformHelpers.DtoToUserAccountViewModel(match);
                                 break;
                             case 2:
-                                matchedBLPM.LittleParentMatch.Little = TransformHelpers.UserAccountToModel(match);
+                                matchedBLPM.LittleParentMatch.Little = TransformHelpers.DtoToUserAccountViewModel(match);
                                 break;
                             case 3:
-                                matchedBLPM.LittleParentMatch.Parent = TransformHelpers.UserAccountToModel(match);
+                                matchedBLPM.LittleParentMatch.Parent = TransformHelpers.DtoToUserAccountViewModel(match);
                                 break;
                         }
                     }
@@ -76,7 +76,7 @@ namespace AspNetCoreWebService.Repositories
                 }
                 else
                 {
-                    throw new Exception("No match found for Match Id: " + matchId.ToString());
+                    return null;
                 }
 
             }
@@ -124,13 +124,13 @@ namespace AspNetCoreWebService.Repositories
                         switch (match.UserTypeId)
                         {
                             case 1:
-                                currentMatch.Big = match;
+                                currentMatch.Big = TransformHelpers.ModelToUserAccountViewModel(match);
                                 break;
                             case 2:
-                                currentMatch.LittleParentMatch.Little = match;
+                                currentMatch.LittleParentMatch.Little = TransformHelpers.ModelToUserAccountViewModel(match);
                                 break;
                             case 3:
-                                currentMatch.LittleParentMatch.Parent = match;
+                                currentMatch.LittleParentMatch.Parent = TransformHelpers.ModelToUserAccountViewModel(match);
                                 break;
                         }
                     }
@@ -190,7 +190,7 @@ namespace AspNetCoreWebService.Repositories
                 if (parentAccount != null)
                     return TransformHelpers.UserAccountToModel(parentAccount);
                 else
-                    throw new Exception("Parent not found for little with Id: " + littleId.ToString());
+                    return null;
             }
         }
     }

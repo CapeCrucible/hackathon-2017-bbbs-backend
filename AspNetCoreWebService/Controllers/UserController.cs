@@ -1,4 +1,5 @@
 ﻿using AspNetCoreWebService.DTOs;
+using AspNetCoreWebService.Helpers;
 using AspNetCoreWebService.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -26,25 +27,25 @@ namespace AspNetCoreWebService.Controllers
         // GET: api/values
         [HttpGet]
         [Route("GetUserAccount")]
-        public UserAccountModel GetUserAccount(int userId)
+        public UserAccountViewModel GetUserAccount(int userId)
         {
-            return UserAccountService.GetUserAccount(userId);
+            return TransformHelpers.ModelToUserAccountViewModel(UserAccountService.GetUserAccount(userId));
         }
 
         // GET: api/values
         [HttpGet]
         [Route("UsersByType/{typeId}")]
-        public IEnumerable<UserAccountModel> GetUserAccountsByType(int typeId)
+        public IEnumerable<UserAccountViewModel> GetUserAccountsByType(int typeId)
         {
-            return UserAccountService.GetUserAccountsByType(typeId);
+            return TransformHelpers.ListUserAccountModelToViewModel(UserAccountService.GetUserAccountsByType(typeId).ToList());
         }
 
         // GET: api/values
         [HttpPost]
         [Route("CreateUser")]
-        public UserAccountModel CreateUser(UserAccountModel inputModel)
+        public UserAccountViewModel CreateUser(UserAccountModel inputModel)
         {
-            return UserAccountService.CreateUserAccount(inputModel);
+            return TransformHelpers.ModelToUserAccountViewModel(UserAccountService.CreateUserAccount(inputModel));
         }
 
         [HttpPost]
@@ -78,16 +79,16 @@ namespace AspNetCoreWebService.Controllers
             
             ConsolidatedUserInformationResponseModel newModel = new ConsolidatedUserInformationResponseModel
             {
-                User = UserAccountService.CreateUserAccount(Model.User),
-                Address = AddressService.CreateUserAddress(Model.Address)
+                user = TransformHelpers.ModelToUserAccountViewModel(UserAccountService.CreateUserAccount(Model.UserAccountModel)),
+                address = AddressService.CreateUserAddress(Model.UserAddressModel)
             };
 
-            Model.ContactInfo.UserAddressId = newModel.Address.Id;
-            newModel.ContactInfo = ContactInfoService.CreateUserContactInfo(Model.ContactInfo);
+            Model.ContactInfoModel.UserAddressId = newModel.address.Id;
+            newModel.contactInfo = ContactInfoService.CreateUserContactInfo(Model.ContactInfoModel);
 
             foreach (var Interest in Model.Interest)
             {
-                InterestUserMapModel NewMapping = new InterestUserMapModel
+                var NewMapping = new InterestUserMapModel
                 {
                     UserAccountId = Model.User.Id,
                     InterestId = Interest.Id
@@ -96,9 +97,29 @@ namespace AspNetCoreWebService.Controllers
                 InterestService.CreateInterestUserMap(NewMapping);
             }
 
-            newModel.Interest = InterestService.GetUserInterests(Model.User.Id);
+            newModel.interests = InterestService.GetUserInterests(Model.UserAccountModel.Id);
 
             return newModel;
         }
+
+        [HttpGet]
+        [Route("GetConsolidatedUserInfo/{UserID}")]
+        public ConsolidatedUserInformationResponseModel GetConsolidatedUserInfo(int UserId)
+
+        {
+            var newModel = new ConsolidatedUserInformationResponseModel();
+
+            newModel.user = TransformHelpers.ModelToUserAccountViewModel(UserAccountService.GetUserAccount(UserId));
+            newModel.address = AddressService.GetAddressForUser(UserId);
+
+            newModel.contactInfo.UserAddressId = newModel.address.Id;
+            newModel.contactInfo = ContactInfoService.GetUserContactInfo(UserId);
+
+            newModel.interests = InterestService.GetUserInterests(UserId);
+
+            return newModel;
+        }
+
+
     }
 }

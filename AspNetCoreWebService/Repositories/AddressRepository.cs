@@ -15,6 +15,9 @@ namespace AspNetCoreWebService.Repositories
             using (var _context = new bbbsDbContext())
             {
                 var query = _context.UserAddresses.FirstOrDefault(x => x.Id == addressId);
+
+                if (query == null)
+                    return null;
                 return new UserAddressModel
                 {
                     City = query.City,

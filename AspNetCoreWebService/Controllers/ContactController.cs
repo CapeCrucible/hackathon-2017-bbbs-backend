@@ -29,7 +29,7 @@ namespace AspNetCoreWebService.Controllers
         // GET: api/values
         [HttpGet]
         [Route("GetAddress")]
-        public static UserAddressModel GetAddress(int addressId)
+        public UserAddressModel GetAddress(int addressId)
         {
             return AddressService.GetAddress(addressId);
         }

@@ -1,6 +1,7 @@
 ﻿using AspNetCoreWebService.Context;
 using AspNetCoreWebService.Context.Models;
 using AspNetCoreWebService.DTOs;
+using AspNetCoreWebService.Helpers;
 using Catalog.Common.Utilities;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,8 +14,8 @@ namespace AspNetCoreWebService.Repositories
         {
             using (var _context = new bbbsDbContext())
             {
-                return AutoMapperGenericsHelper<UserAccount, UserAccountModel>.Convert(
-                    _context.UserAccounts.FirstOrDefault(x => x.Id == userId));
+                
+                return TransformHelpers.UserAccountToModel(_context.UserAccounts.FirstOrDefault(x => x.Id == userId));
             }
         }
 
@@ -25,7 +26,7 @@ namespace AspNetCoreWebService.Repositories
                 List<UserAccountModel> userAccountModels = new List<UserAccountModel>();
                 foreach (var userAccount in _context.UserAccounts.Where(x => x.UserTypeId == typeId).ToList())
                 {
-                    userAccountModels.Add(AutoMapperGenericsHelper<UserAccount, UserAccountModel>.Convert(userAccount));
+                    TransformHelpers.UserAccountToModel(userAccount);
                 }
                 return userAccountModels;
             }
@@ -35,9 +36,10 @@ namespace AspNetCoreWebService.Repositories
         {
             using (var _context = new bbbsDbContext())
             {
-                var newUser = _context.Add(AutoMapperGenericsHelper<UserAccountModel, UserAccount>
-                    .Convert(userModel));
-                return AutoMapperGenericsHelper<UserAccount, UserAccountModel>.Convert(newUser.Entity);
+                var newUser = _context.Add(TransformHelpers.ModelToUserAccount(userModel));
+                _context.SaveChanges();
+                userModel.Id = newUser.Entity.Id;
+                return userModel;
             }
         }
 
@@ -54,7 +56,7 @@ namespace AspNetCoreWebService.Repositories
                     existingUser.UserName = userModel.UserName;
                     existingUser.UserTypeId = userModel.UserTypeId;
                     _context.SaveChanges();
-                    return AutoMapperGenericsHelper<UserAccount, UserAccountModel>.Convert(existingUser);
+                    return TransformHelpers.UserAccountToModel(existingUser);
                 }
             }
             return null;

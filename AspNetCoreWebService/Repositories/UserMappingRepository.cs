@@ -5,6 +5,7 @@ using Catalog.Common.Utilities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AspNetCoreWebService.Helpers;
 using System.Threading.Tasks;
 
 namespace AspNetCoreWebService.Repositories
@@ -60,13 +61,13 @@ namespace AspNetCoreWebService.Repositories
                         switch (match.UserTypeId)
                         {
                             case 1:
-                                matchedBLPM.Big = MapToModel(match);
+                                matchedBLPM.Big = TransformHelpers.UserAccountToModel(match);
                                 break;
                             case 2:
-                                matchedBLPM.LittleParentMatch.Little = MapToModel(match);
+                                matchedBLPM.LittleParentMatch.Little = TransformHelpers.UserAccountToModel(match);
                                 break;
                             case 3:
-                                matchedBLPM.LittleParentMatch.Parent = MapToModel(match);
+                                matchedBLPM.LittleParentMatch.Parent = TransformHelpers.UserAccountToModel(match);
                                 break;
                         }
                     }
@@ -146,7 +147,7 @@ namespace AspNetCoreWebService.Repositories
                                                 from blpm in temp.DefaultIfEmpty()
                                                 select ua).Distinct().ToList();
 
-                var unmatchedBigUserAccountModels = MapListToModel(unmatchedBigUserAccounts);
+                var unmatchedBigUserAccountModels = TransformHelpers.ListUserAccountToModel(unmatchedBigUserAccounts);
 
                 return unmatchedBigUserAccountModels;
             }
@@ -162,7 +163,7 @@ namespace AspNetCoreWebService.Repositories
                                                from blpm in temp.DefaultIfEmpty()
                                                select ua).Distinct().ToList();
 
-                var unmatchedLittleUserAccounts = MapListToModel(unmatchedLittleAccounts);
+                var unmatchedLittleUserAccounts = TransformHelpers.ListUserAccountToModel(unmatchedLittleAccounts);
 
                 return unmatchedLittleUserAccounts;
             }
@@ -177,33 +178,10 @@ namespace AspNetCoreWebService.Repositories
                                      where ua.UserTypeId == 3
                                      select ua).FirstOrDefault();
                 if (parentAccount != null)
-                    return MapToModel(parentAccount);
+                    return TransformHelpers.UserAccountToModel(parentAccount);
                 else
                     throw new Exception("Parent not found for little with Id: " + littleId.ToString());
             }
-        }
-
-        private static UserAccountModel MapToModel(UserAccount account)
-        {
-            return new UserAccountModel
-            {
-                Id = account.Id,
-                FirstName = account.FirstName,
-                LastName = account.LastName,
-                Password = account.Password,
-                UserName = account.UserName,
-                UserTypeId = account.UserTypeId
-            };
-        }
-
-        private static List<UserAccountModel> MapListToModel(List<UserAccount> UserAccounts)
-        {
-            List<UserAccountModel> userAccountModels = new List<UserAccountModel>();
-            foreach (var userAccount in UserAccounts)
-            {
-                MapToModel(userAccount);
-            }
-            return userAccountModels;
         }
     }
 }

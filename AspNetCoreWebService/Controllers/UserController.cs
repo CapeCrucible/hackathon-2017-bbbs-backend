@@ -59,7 +59,7 @@ namespace AspNetCoreWebService.Controllers
         [HttpPost]
         [Route("CreateConsolidatedUser")]
         public ConsolidatedUserInformationResponseModel CreateConsolidatedUser(ConsolidatedUserInformationInputModel Model)
-        
+
         {
             var newModel = new ConsolidatedUserInformationResponseModel
             {
@@ -80,31 +80,30 @@ namespace AspNetCoreWebService.Controllers
 
                 InterestService.CreateInterestUserMap(NewMapping);
             }
-            
+
             newModel.InterestModels = InterestService.GetUserInterests(Model.UserAccountModel.Id);
-            
+
             return newModel;
         }
-        
+
         [HttpGet]
         [Route("GetConsolidatedUserInfo/{UserID}")]
         public ConsolidatedUserInformationResponseModel GetConsolidatedUserInfo(int UserId)
-        
+
         {
-            var newModel = new ConsolidatedUserInformationResponseModel
-            {
-                UserAccountViewModel = TransformHelpers.ModelToUserAccountViewModel(UserAccountService.GetUserAccount(UserId)),
-                UserAddressModel = AddressService.GetAddressForUser(UserId)
-            };
+            var newModel = new ConsolidatedUserInformationResponseModel();
+
+            newModel.UserAccountViewModel = TransformHelpers.ModelToUserAccountViewModel(UserAccountService.GetUserAccount(UserId));
+            newModel.UserAddressModel = AddressService.GetAddressForUser(UserId);
 
             newModel.ContactInfoModel.UserAddressId = newModel.UserAddressModel.Id;
             newModel.ContactInfoModel = ContactInfoService.GetUserContactInfo(UserId);
 
             newModel.InterestModels = InterestService.GetUserInterests(UserId);
-            
+
             return newModel;
         }
-        
-        
+
+
     }
 }

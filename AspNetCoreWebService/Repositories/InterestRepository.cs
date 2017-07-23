@@ -42,9 +42,9 @@ namespace AspNetCoreWebService.Repositories
         {
             using (var _context = new bbbsDbContext())
             {
-                List<Interest> interests = (from Interest i in _context.Interests
-                                            join InterestUserMap ium in _context.InterestUserMaps on i.Id equals ium.InterestId
-                                            join UserAccount ua in _context.UserAccounts on ium.UserAccountId equals ua.Id
+                var interests = (from Interest i in _context.Interests
+                                            join ium in _context.InterestUserMaps on i.Id equals ium.InterestId
+                                            join ua in _context.UserAccounts on ium.UserAccountId equals ua.Id
                                             where ua.Id == userId
                                             select i).Distinct().ToList();
 

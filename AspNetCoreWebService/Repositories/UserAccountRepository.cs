@@ -53,6 +53,7 @@ namespace AspNetCoreWebService.Repositories
                     existingUser.LastName = userModel.LastName;
                     existingUser.UserName = userModel.UserName;
                     existingUser.UserTypeId = userModel.UserTypeId;
+                    existingUser.Age = userModel.Age;
                     _context.SaveChanges();
                     return TransformHelpers.UserAccountToModel(existingUser);
                 }

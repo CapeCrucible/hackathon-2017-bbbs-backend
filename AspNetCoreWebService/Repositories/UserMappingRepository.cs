@@ -73,7 +73,8 @@ namespace AspNetCoreWebService.Repositories
                                  Id = ua.Id,
                                  Password = ua.Password,
                                  UserName = ua.UserName,
-                                 UserTypeId = ua.UserTypeId
+                                 UserTypeId = ua.UserTypeId,
+                                 Age = ua.Age
                              })
                             .Distinct().ToList();
 
@@ -84,7 +85,8 @@ namespace AspNetCoreWebService.Repositories
                     LastName = model.LastName,
                     UserName = model.UserName,
                     UserTypeId = model.UserTypeId,
-                    Password = model.Password
+                    Password = model.Password,
+                    Age = model.Age
                 }).ToDictionary(y => y.Key, z => z.ToList());
 
                 List<ShallowMatchedBigLittleParentModel> matches = new List<ShallowMatchedBigLittleParentModel>();
@@ -197,7 +199,8 @@ namespace AspNetCoreWebService.Repositories
                                  Id = ua.Id,
                                  Password = ua.Password,
                                  UserName = ua.UserName,
-                                 UserTypeId = ua.UserTypeId
+                                 UserTypeId = ua.UserTypeId,
+                                 Age = ua.Age
                              })
                             .Distinct().ToList();
 
@@ -208,7 +211,8 @@ namespace AspNetCoreWebService.Repositories
                     LastName = model.LastName,
                     UserName = model.UserName,
                     UserTypeId = model.UserTypeId,
-                    Password = model.Password
+                    Password = model.Password,
+                    Age = model.Age
                 }).ToDictionary(y => y.Key, z => z.ToList());
 
                 List<MatchedBigLittleParentModel> matches = new List<MatchedBigLittleParentModel>();

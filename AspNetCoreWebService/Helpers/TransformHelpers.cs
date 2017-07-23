@@ -18,7 +18,8 @@ namespace AspNetCoreWebService.Helpers
                 LastName = account.LastName,
                 Password = account.Password,
                 UserName = account.UserName,
-                UserTypeId = account.UserTypeId
+                UserTypeId = account.UserTypeId,
+                Age = account.Age
             };
         }
 
@@ -41,7 +42,8 @@ namespace AspNetCoreWebService.Helpers
                 LastName = account.LastName,
                 Password = account.Password,
                 UserName = account.UserName,
-                UserTypeId = account.UserTypeId
+                UserTypeId = account.UserTypeId,
+                Age = account.Age
             };
         }
 
@@ -66,7 +68,8 @@ namespace AspNetCoreWebService.Helpers
                 Id = model.Id,
                 LastName = model.LastName,
                 UserName = model.UserName,
-                UserTypeId = model.UserTypeId
+                UserTypeId = model.UserTypeId,
+                Age = model.Age
             };
         }
 
@@ -78,7 +81,8 @@ namespace AspNetCoreWebService.Helpers
                 LastName = viewModel.LastName,
                 UserName = viewModel.UserName,
                 UserTypeId = viewModel.UserTypeId,
-                Id = viewModel.Id
+                Id = viewModel.Id,
+                Age = viewModel.Age
             };
         }
 
@@ -100,7 +104,8 @@ namespace AspNetCoreWebService.Helpers
                 Id = model.Id,
                 LastName = model.LastName,
                 UserName = model.UserName,
-                UserTypeId = model.UserTypeId
+                UserTypeId = model.UserTypeId,
+                Age = model.Age
             };
         }
 
@@ -116,7 +121,8 @@ namespace AspNetCoreWebService.Helpers
                     LastName = model.UserAccount.LastName,
                     UserName = model.UserAccount.UserName,
                     UserTypeId = model.UserAccount.UserTypeId,
-                    Id = model.UserAccount.Id
+                    Id = model.UserAccount.Id,
+                    Age = model.UserAccount.Age
                 }
             };
         }

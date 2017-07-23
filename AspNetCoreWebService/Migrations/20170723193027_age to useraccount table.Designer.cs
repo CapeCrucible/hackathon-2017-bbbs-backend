@@ -8,9 +8,10 @@ using AspNetCoreWebService.Context;
 namespace AspNetCoreWebService.Migrations
 {
     [DbContext(typeof(bbbsDbContext))]
-    partial class bbbsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170723193027_age to useraccount table")]
+    partial class agetouseraccounttable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")

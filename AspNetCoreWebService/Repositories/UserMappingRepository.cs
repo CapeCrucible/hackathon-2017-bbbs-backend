@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using AspNetCoreWebService.Helpers;
 using System.Threading.Tasks;
+using AspNetCoreWebService.Controllers;
+using AspNetCoreWebService.Services;
 
 namespace AspNetCoreWebService.Repositories
 {
@@ -85,16 +87,24 @@ namespace AspNetCoreWebService.Repositories
                     matchedBLPM.MatchId = matchId;
                     foreach (var match in matchedUsers)
                     {
+                        var newModel = new ConsolidatedUserInformationResponseModel();
+
+                        newModel.user = TransformHelpers.ModelToUserAccountViewModel(UserAccountService.GetUserAccount(match.Id));
+                        newModel.address = AddressService.GetAddressForUser(match.Id);
+                        newModel.contactInfo.UserAddressId = newModel.address.Id;
+                        newModel.contactInfo = ContactInfoService.GetUserContactInfo(match.Id);
+                        newModel.interests = InterestService.GetUserInterests(match.Id);
+
                         switch (match.UserTypeId)
                         {
                             case 1:
-                                matchedBLPM.Big = TransformHelpers.DtoToUserAccountViewModel(match);
+                                matchedBLPM.Big = newModel;
                                 break;
                             case 2:
-                                matchedBLPM.Little = TransformHelpers.DtoToUserAccountViewModel(match);
+                                matchedBLPM.Little = newModel;
                                 break;
                             case 3:
-                                matchedBLPM.Parent = TransformHelpers.DtoToUserAccountViewModel(match);
+                                matchedBLPM.Parent = newModel;
                                 break;
                         }
                     }
@@ -145,17 +155,24 @@ namespace AspNetCoreWebService.Repositories
                     MatchedBigLittleParentModel currentMatch = new MatchedBigLittleParentModel();
                     foreach (var match in matchesQuery[key])
                     {
+                        var newModel = new ConsolidatedUserInformationResponseModel();
+
+                        newModel.user = TransformHelpers.ModelToUserAccountViewModel(UserAccountService.GetUserAccount(match.Id));
+                        newModel.address = AddressService.GetAddressForUser(match.Id);
+                        newModel.contactInfo.UserAddressId = newModel.address.Id;
+                        newModel.contactInfo = ContactInfoService.GetUserContactInfo(match.Id);
+                        newModel.interests = InterestService.GetUserInterests(match.Id);
 
                         switch (match.UserTypeId)
                         {
                             case 1:
-                                currentMatch.Big = TransformHelpers.ModelToUserAccountViewModel(match);
+                                currentMatch.Big = newModel;
                                 break;
                             case 2:
-                                currentMatch.Little = TransformHelpers.ModelToUserAccountViewModel(match);
+                                currentMatch.Little = newModel;
                                 break;
                             case 3:
-                                currentMatch.Parent = TransformHelpers.ModelToUserAccountViewModel(match);
+                                currentMatch.Parent = newModel;
                                 break;
                         }
                     }

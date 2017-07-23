@@ -8,16 +8,16 @@ namespace AspNetCoreWebService.DTOs
     public class MatchedBigLittleParentModel
     {
         public int MatchId { get; set; }
-        public UserAccountViewModel Big { get; set; }
-        public UserAccountViewModel Little { get; set; }
-        public UserAccountViewModel Parent { get; set; }
+        public ConsolidatedUserInformationResponseModel Big { get; set; }
+        public ConsolidatedUserInformationResponseModel Little { get; set; }
+        public ConsolidatedUserInformationResponseModel Parent { get; set; }
         
 
         public MatchedBigLittleParentModel()
         {
-            this.Big = new UserAccountViewModel();
-            this.Little = new UserAccountViewModel();
-            this.Parent = new UserAccountViewModel();
+            this.Big = new ConsolidatedUserInformationResponseModel();
+            this.Little = new ConsolidatedUserInformationResponseModel();
+            this.Parent = new ConsolidatedUserInformationResponseModel();
         }
     }
 }

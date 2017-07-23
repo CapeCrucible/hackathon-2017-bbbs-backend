@@ -111,10 +111,8 @@ namespace AspNetCoreWebService.Controllers
 
             newModel.user = TransformHelpers.ModelToUserAccountViewModel(UserAccountService.GetUserAccount(UserId));
             newModel.address = AddressService.GetAddressForUser(UserId);
-
             newModel.contactInfo.UserAddressId = newModel.address.Id;
             newModel.contactInfo = ContactInfoService.GetUserContactInfo(UserId);
-
             newModel.interests = InterestService.GetUserInterests(UserId);
 
             return newModel;

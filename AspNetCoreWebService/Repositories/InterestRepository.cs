@@ -14,9 +14,13 @@ namespace AspNetCoreWebService.Repositories
         {
             using (var _context = new bbbsDbContext())
             {
-                var newInterest = _context.Add(AutoMapperGenericsHelper<InterestModel, Interest>
-                    .Convert(interestModel));
-                return AutoMapperGenericsHelper<Interest, InterestModel>.Convert(newInterest.Entity);
+                var newInterest = _context.Add(new Interest
+                {
+                    InterestName = interestModel.InterestName
+                });
+                _context.SaveChanges();
+                interestModel.Id = newInterest.Entity.Id;
+                return interestModel;
             }
         }
 
@@ -24,9 +28,14 @@ namespace AspNetCoreWebService.Repositories
         {
             using (var _context = new bbbsDbContext())
             {
-                var newMap = _context.Add(AutoMapperGenericsHelper<InterestUserMapModel, InterestUserMap>
-                    .Convert(mapModel));
-                return AutoMapperGenericsHelper<InterestUserMap, InterestUserMapModel>.Convert(newMap.Entity);
+                var newMap = _context.Add(new InterestUserMap
+                {
+                    InterestId = mapModel.InterestId,
+                    UserAccountId = mapModel.UserAccountId
+                });
+                _context.SaveChanges();
+                mapModel.Id = newMap.Entity.Id;
+                return mapModel;
             }
         }
         public static List<InterestModel> GetUserInterests(int userId)
@@ -34,15 +43,19 @@ namespace AspNetCoreWebService.Repositories
             using (var _context = new bbbsDbContext())
             {
                 List<Interest> interests = (from Interest i in _context.Interests
-                    join InterestUserMap ium in _context.InterestUserMaps on i.Id equals ium.InterestId
-                    join UserAccount ua in _context.UserAccounts on ium.UserAccountId equals ua.Id
-                    where ua.Id == userId
-                    select i).Distinct().ToList();
+                                            join InterestUserMap ium in _context.InterestUserMaps on i.Id equals ium.InterestId
+                                            join UserAccount ua in _context.UserAccounts on ium.UserAccountId equals ua.Id
+                                            where ua.Id == userId
+                                            select i).Distinct().ToList();
 
                 List<InterestModel> interestModels = new List<InterestModel>();
-                foreach(var interest in interests)
+                foreach (var interest in interests)
                 {
-                    interestModels.Add(AutoMapperGenericsHelper<Interest, InterestModel>.Convert(interest));
+                    interestModels.Add(new InterestModel
+                    {
+                        Id = interest.Id,
+                        InterestName = interest.InterestName
+                    });
                 }
                 return interestModels;
             }

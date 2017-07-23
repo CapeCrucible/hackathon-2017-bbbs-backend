@@ -12,9 +12,16 @@ namespace AspNetCoreWebService.Repositories
         {
             using (var _context = new bbbsDbContext())
             {
-                var newContactInfo = _context.Add(AutoMapperGenericsHelper<ContactInfoModel, ContactInfo>
-                    .Convert(contactInfoModel));
-                return AutoMapperGenericsHelper<ContactInfo, ContactInfoModel>.Convert(newContactInfo.Entity);
+                var newContactInfo = _context.Add(new ContactInfo
+                {
+                    Email = contactInfoModel.Email,
+                    PhoneNumber = contactInfoModel.PhoneNumber,
+                    UserAccountId = contactInfoModel.UserAccountId,
+                    UserAddressId = contactInfoModel.UserAddressId
+                });
+                _context.SaveChanges();
+                contactInfoModel.Id = newContactInfo.Entity.Id;
+                return contactInfoModel;
             }
         }
 
@@ -22,7 +29,15 @@ namespace AspNetCoreWebService.Repositories
         {
             using (var _context = new bbbsDbContext())
             {
-                return AutoMapperGenericsHelper<ContactInfo, ContactInfoModel>.Convert(_context.ContactInfo.FirstOrDefault(x => x.UserAccountId == userId));
+                var contactInfo = _context.ContactInfo.FirstOrDefault(x => x.UserAccountId == userId);
+                return new ContactInfoModel
+                {
+                    Id = contactInfo.Id,
+                    UserAddressId = contactInfo.UserAddressId,
+                    Email = contactInfo.Email,
+                    PhoneNumber = contactInfo.PhoneNumber,
+                    UserAccountId = contactInfo.UserAccountId
+                };
             }
         }
 
@@ -39,7 +54,7 @@ namespace AspNetCoreWebService.Repositories
                     existingContactInfo.UserAccountId = existingContactInfo.UserAccountId;
                     existingContactInfo.UserAddressId = existingContactInfo.UserAddressId;
                     _context.SaveChanges();
-                    return AutoMapperGenericsHelper<ContactInfo, ContactInfoModel>.Convert(existingContactInfo);
+                    return contactInfoModel;
                 }
             }
             return null;

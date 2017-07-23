@@ -13,7 +13,16 @@ namespace AspNetCoreWebService.Repositories
         {
             using (var _context = new bbbsDbContext())
             {
-                return AutoMapperGenericsHelper<UserAddress, UserAddressModel>.Convert(_context.UserAddresses.FirstOrDefault(x => x.Id == addressId));
+                var query = _context.UserAddresses.FirstOrDefault(x => x.Id == addressId);
+                return new UserAddressModel
+                {
+                    City = query.City,
+                    Id = query.Id,
+                    State = query.State,
+                    StreetLine1 = query.StreetLine1,
+                    StreetLine2 = query.StreetLine2,
+                    Zip = query.Zip
+                };
             }
 
         }
@@ -22,9 +31,17 @@ namespace AspNetCoreWebService.Repositories
         {
             using (var _context = new bbbsDbContext())
             {
-                var newAddress = _context.Add(AutoMapperGenericsHelper<UserAddressModel, UserAddress>
-                    .Convert(addressModel));
-                return AutoMapperGenericsHelper<UserAddress, UserAddressModel>.Convert(newAddress.Entity);
+                var newAddress = _context.Add(new UserAddress
+                {
+                    City = addressModel.City,
+                    Zip = addressModel.Zip,
+                    StreetLine1 = addressModel.StreetLine1,
+                    StreetLine2 = addressModel.StreetLine2,
+                    State = addressModel.State
+                });
+                _context.SaveChanges();
+                addressModel.Id = newAddress.Entity.Id;
+                return addressModel;
             }
         }
 
@@ -42,7 +59,7 @@ namespace AspNetCoreWebService.Repositories
                     existingUserAddress.State = userAddressModel.State;
                     existingUserAddress.Zip = userAddressModel.Zip;
                     _context.SaveChanges();
-                    return AutoMapperGenericsHelper<UserAddress, UserAddressModel>.Convert(existingUserAddress);
+                    return userAddressModel;
                 }
             }
             return null;

@@ -17,7 +17,10 @@ namespace AspNetCoreWebService.Repositories
                 var modelList = new List<UserTypeModel>();
                 foreach (var type in context.UserTypes)
                 {
-                    modelList.Add(AutoMapperGenericsHelper<UserType, UserTypeModel>.Convert(type));
+                    modelList.Add(new UserTypeModel {
+                        Id = type.Id,
+                        UserTypeName = type.UserTypeName
+                    });
                 }
                 return modelList;
             }
@@ -26,9 +29,12 @@ namespace AspNetCoreWebService.Repositories
         {
             using (var _context = new bbbsDbContext())
             {
-                var newUserType = _context.Add(AutoMapperGenericsHelper<UserTypeModel, UserType>
-                    .Convert(userTypeModel));
-                return AutoMapperGenericsHelper<UserType, UserTypeModel>.Convert(newUserType.Entity);
+                var newUserType = _context.Add(new UserType {
+                    UserTypeName = userTypeModel.UserTypeName
+                });
+                _context.SaveChanges();
+                userTypeModel.Id = newUserType.Entity.Id;
+                return userTypeModel;
             }
         }
     }

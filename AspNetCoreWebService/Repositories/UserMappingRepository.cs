@@ -15,9 +15,14 @@ namespace AspNetCoreWebService.Repositories
         {
             using (var _context = new bbbsDbContext())
             {
-                var newMap = _context.Add(AutoMapperGenericsHelper<LittleParentMapModel, LittleParentMap>
-                    .Convert(mapModel));
-                return AutoMapperGenericsHelper<LittleParentMap, LittleParentMapModel>.Convert(newMap.Entity);
+                var newMap = _context.Add(new LittleParentMap
+                {
+                    LittleId = mapModel.LittleId,
+                    ParentId = mapModel.ParentId
+                });
+                _context.SaveChanges();
+                mapModel.Id = newMap.Entity.Id;
+                return mapModel;
             }
         }
 
@@ -25,9 +30,14 @@ namespace AspNetCoreWebService.Repositories
         {
             using (var _context = new bbbsDbContext())
             {
-                var newMap = _context.Add(AutoMapperGenericsHelper<BigLittleParentMapModel, BigLittleParentMap>
-                    .Convert(mapModel));
-                return AutoMapperGenericsHelper<BigLittleParentMap, BigLittleParentMapModel>.Convert(newMap.Entity);
+                var newMap = _context.Add(new BigLittleParentMap
+                {
+                    BigId = mapModel.BigId,
+                    LittleParentMapId = mapModel.LittleParentMapId,
+                });
+                _context.SaveChanges();
+                mapModel.Id = newMap.Entity.Id;
+                return mapModel;
             }
         }
 
@@ -50,13 +60,13 @@ namespace AspNetCoreWebService.Repositories
                         switch (match.UserTypeId)
                         {
                             case 1:
-                                matchedBLPM.Big = AutoMapperGenericsHelper<UserAccount, UserAccountModel>.Convert(match);
+                                matchedBLPM.Big = MapToModel(match);
                                 break;
                             case 2:
-                                matchedBLPM.LittleParentMatch.Little = AutoMapperGenericsHelper<UserAccount, UserAccountModel>.Convert(match);
+                                matchedBLPM.LittleParentMatch.Little = MapToModel(match);
                                 break;
                             case 3:
-                                matchedBLPM.LittleParentMatch.Parent = AutoMapperGenericsHelper<UserAccount, UserAccountModel>.Convert(match);
+                                matchedBLPM.LittleParentMatch.Parent = MapToModel(match);
                                 break;
                         }
                     }
@@ -69,6 +79,8 @@ namespace AspNetCoreWebService.Repositories
 
             }
         }
+
+
 
         internal static List<MatchedBigLittleParentModel> GetAllMatches()
         {
@@ -134,7 +146,7 @@ namespace AspNetCoreWebService.Repositories
                                                 from blpm in temp.DefaultIfEmpty()
                                                 select ua).Distinct().ToList();
 
-                var unmatchedBigUserAccountModels = MapToModel(unmatchedBigUserAccounts);
+                var unmatchedBigUserAccountModels = MapListToModel(unmatchedBigUserAccounts);
 
                 return unmatchedBigUserAccountModels;
             }
@@ -150,7 +162,7 @@ namespace AspNetCoreWebService.Repositories
                                                from blpm in temp.DefaultIfEmpty()
                                                select ua).Distinct().ToList();
 
-                var unmatchedLittleUserAccounts = MapToModel(unmatchedLittleAccounts);
+                var unmatchedLittleUserAccounts = MapListToModel(unmatchedLittleAccounts);
 
                 return unmatchedLittleUserAccounts;
             }
@@ -165,18 +177,31 @@ namespace AspNetCoreWebService.Repositories
                                      where ua.UserTypeId == 3
                                      select ua).FirstOrDefault();
                 if (parentAccount != null)
-                    return AutoMapperGenericsHelper<UserAccount, UserAccountModel>.Convert(parentAccount);
+                    return MapToModel(parentAccount);
                 else
                     throw new Exception("Parent not found for little with Id: " + littleId.ToString());
             }
         }
 
-        private static List<UserAccountModel> MapToModel(List<UserAccount> UserAccounts)
+        private static UserAccountModel MapToModel(UserAccount account)
+        {
+            return new UserAccountModel
+            {
+                Id = account.Id,
+                FirstName = account.FirstName,
+                LastName = account.LastName,
+                Password = account.Password,
+                UserName = account.UserName,
+                UserTypeId = account.UserTypeId
+            };
+        }
+
+        private static List<UserAccountModel> MapListToModel(List<UserAccount> UserAccounts)
         {
             List<UserAccountModel> userAccountModels = new List<UserAccountModel>();
             foreach (var userAccount in UserAccounts)
             {
-                userAccountModels.Add(AutoMapperGenericsHelper<UserAccount, UserAccountModel>.Convert(userAccount));
+                MapToModel(userAccount);
             }
             return userAccountModels;
         }

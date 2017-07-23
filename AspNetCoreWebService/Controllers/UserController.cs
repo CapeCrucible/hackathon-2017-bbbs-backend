@@ -21,7 +21,7 @@ namespace AspNetCoreWebService.Controllers
 
         // GET: api/values
         [HttpGet]
-        [Route("User/{userId}")]
+        [Route("/{userId}")]
         public UserAccountModel GetUserAccount(int userId)
         {
             return UserAccountService.GetUserAccount(userId);
@@ -65,7 +65,7 @@ namespace AspNetCoreWebService.Controllers
                 UserAddressModel = AddressService.CreateUserAddress(model.UserAddressModel)
             };
 
-            model.ContactInfoModel.AddressId = newModel.UserAddressModel.Id;
+            model.ContactInfoModel.UserAddressId = newModel.UserAddressModel.Id;
             newModel.ContactInfoModel = ContactInfoService.CreateUserContactInfo(model.ContactInfoModel);
             newModel.InterestModels = InterestService.GetUserInterests(newModel.UserAccountModel.Id);
 

@@ -10,7 +10,7 @@ namespace AspNetCoreWebService.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public UserAccountViewModelLogin(LoginRequestModel LoginRequest)
+        public UserAccountViewModel Login(LoginRequestModel LoginRequest)
         {
             return UserAccountService.DoLogin(LoginRequest);
         }

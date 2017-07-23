@@ -1,18 +1,23 @@
 ﻿using AspNetCoreWebService.DTOs;
 using AspNetCoreWebService.Services;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json.Linq;
 
 namespace AspNetCoreWebService.Controllers
 {
     [Route("api/[controller]")]
     public class LoginController
     {
-
         [HttpPost]
         [Route("Login")]
-        public UserAccountViewModel Login(LoginRequestModel LoginRequest)
+        public UserAccountViewModel Login( [FromBody] JObject jmodel )
         {
-            return UserAccountService.DoLogin(LoginRequest);
+            var request = new LoginRequestModel()
+            {
+                UserName = jmodel["UserName"].ToObject<string>(),
+                Password = jmodel["Password"].ToObject<string>()
+            };
+            return UserAccountService.DoLogin(request);
         }
     }
 

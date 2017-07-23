@@ -18,5 +18,13 @@ namespace AspNetCoreWebService.Services
         {
             return InterestRepository.CreateInterestUserMap(mapModel);
         }
+
+        public static IEnumerable<InterestModel> GetSharedInterest(int bigId, int littleId)
+        {
+            var littleInterests = GetUserInterests(littleId);
+            var bigInterests = GetUserInterests(bigId);
+            return (from littleInterest in littleInterests from bigInterest in bigInterests where littleInterest.Id == bigInterest.Id select littleInterest).ToList();
+
+        }
     }
 }

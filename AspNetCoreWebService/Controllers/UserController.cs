@@ -60,7 +60,7 @@ namespace AspNetCoreWebService.Controllers
         public ConsolidatedUserInformationResponseModel CreateConsolidatedUser(ConsolidatedUserInformationResponseModel Model)
         
         {
-            ConsolidatedUserInformationResponseModel newModel = new ConsolidatedUserInformationResponseModel
+            var newModel = new ConsolidatedUserInformationResponseModel
             {
                 UserAccountModel = UserAccountService.CreateUserAccount(Model.UserAccountModel),
                 UserAddressModel = AddressService.CreateUserAddress(Model.UserAddressModel)
@@ -71,7 +71,7 @@ namespace AspNetCoreWebService.Controllers
 
             foreach (var Interest in Model.InterestModels)
             {
-                InterestUserMapModel NewMapping = new InterestUserMapModel
+                var NewMapping = new InterestUserMapModel
                 {
                     UserAccountId = Model.UserAccountModel.Id,
                     InterestId = Interest.Id
@@ -84,5 +84,26 @@ namespace AspNetCoreWebService.Controllers
             
             return newModel;
         }
+        
+        [HttpGet]
+        [Route("GetConsolidatedUserInfo/{UserID}")]
+        public ConsolidatedUserInformationResponseModel GetConsolidatedUserInfo(int UserId)
+        
+        {
+            var newModel = new ConsolidatedUserInformationResponseModel
+            {
+                UserAccountModel = UserAccountService.GetUserAccount(UserId),
+                UserAddressModel = AddressService.GetAddressForUser(UserId)
+            };
+
+            newModel.ContactInfoModel.UserAddressId = newModel.UserAddressModel.Id;
+            newModel.ContactInfoModel = ContactInfoService.GetUserContactInfo(UserId);
+
+            newModel.InterestModels = InterestService.GetUserInterests(UserId);
+            
+            return newModel;
+        }
+        
+        
     }
 }

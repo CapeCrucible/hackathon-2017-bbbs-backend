@@ -31,5 +31,10 @@ namespace AspNetCoreWebService.Services
         {
             return UserAccountRepository.UpdateUserAccount(userAccountModel);
         }
+
+        internal static UserAccountModel DoLogin(LoginRequestModel requestModel)
+        {
+            return UserAccountRepository.GetUserByLogin(requestModel);
+        }
     }
 }

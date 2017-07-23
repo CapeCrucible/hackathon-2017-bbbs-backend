@@ -62,5 +62,15 @@ namespace AspNetCoreWebService.Repositories
             return null;
         }
 
+        public static UserAccountModel GetUserByLogin(LoginRequestModel requestModel)
+        {
+            using (var _context = new bbbsDbContext())
+            {
+                
+                return TransformHelpers.UserAccountToModel(_context.UserAccounts.FirstOrDefault(
+                    x => x.UserName == requestModel.UserName && x.Password == requestModel.Password
+                ));
+            }
+        }
     }
 }

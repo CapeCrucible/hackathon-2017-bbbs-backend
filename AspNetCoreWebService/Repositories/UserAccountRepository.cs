@@ -26,7 +26,7 @@ namespace AspNetCoreWebService.Repositories
                 List<UserAccountModel> userAccountModels = new List<UserAccountModel>();
                 foreach (var userAccount in _context.UserAccounts.Where(x => x.UserTypeId == typeId).ToList())
                 {
-                    TransformHelpers.UserAccountToModel(userAccount);
+                    userAccountModels.Add(TransformHelpers.UserAccountToModel(userAccount));
                 }
                 return userAccountModels;
             }

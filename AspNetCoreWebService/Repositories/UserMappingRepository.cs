@@ -76,7 +76,7 @@ namespace AspNetCoreWebService.Repositories
                 }
                 else
                 {
-                    throw new Exception("No match found for Match Id: " + matchId.ToString());
+                    return null;
                 }
 
             }
@@ -190,7 +190,7 @@ namespace AspNetCoreWebService.Repositories
                 if (parentAccount != null)
                     return TransformHelpers.UserAccountToModel(parentAccount);
                 else
-                    throw new Exception("Parent not found for little with Id: " + littleId.ToString());
+                    return null;
             }
         }
     }

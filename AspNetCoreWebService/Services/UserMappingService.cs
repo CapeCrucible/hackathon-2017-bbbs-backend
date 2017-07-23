@@ -43,5 +43,10 @@ namespace AspNetCoreWebService.Services
         {
             return UserMappingRepository.GetAllMatches();
         }
+
+        internal static MatchedBigLittleParentModel GetMatchByUserAccountId(int userId)
+        {
+            return UserMappingRepository.GetMatchByUserAccountId(userId);
+        }
     }
 }

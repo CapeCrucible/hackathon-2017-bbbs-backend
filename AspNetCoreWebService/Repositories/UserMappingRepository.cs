@@ -31,14 +31,40 @@ namespace AspNetCoreWebService.Repositories
         {
             using (var _context = new bbbsDbContext())
             {
+                int parentId = FindParentForLittle(mapModel.LittleId).Id;
+
+                var parentLittleMatch = (from lpm in _context.LittleParentMaps
+                                         where lpm.LittleId == mapModel.LittleId
+                                         && lpm.ParentId == parentId
+                                         select lpm).FirstOrDefault();
+
                 var newMap = _context.Add(new BigLittleParentMap
                 {
                     BigId = mapModel.BigId,
-                    LittleParentMapId = mapModel.LittleParentMapId,
+                    LittleParentMapId = parentLittleMatch.Id,
                 });
                 _context.SaveChanges();
                 mapModel.Id = newMap.Entity.Id;
                 return mapModel;
+                //FINISH THIS METHOD BY MAKING IT POSTABLE
+            }
+        }
+
+        internal static MatchedBigLittleParentModel GetMatchByUserAccountId(int userId)
+        {
+            using (var _context = new bbbsDbContext())
+            {
+                MatchedBigLittleParentModel matchedBLPM = new MatchedBigLittleParentModel();
+                var match = (from blpm in _context.BigLittleParentMaps
+                             join lpm in _context.LittleParentMaps on blpm.LittleParentMapId equals lpm.Id
+                             where blpm.BigId == userId || lpm.LittleId == userId
+                             select blpm
+                            ).FirstOrDefault();
+
+                if (match == null)
+                    return null;
+
+                return GetMatch(match.Id);
             }
         }
 
@@ -65,10 +91,10 @@ namespace AspNetCoreWebService.Repositories
                                 matchedBLPM.Big = TransformHelpers.DtoToUserAccountViewModel(match);
                                 break;
                             case 2:
-                                matchedBLPM.LittleParentMatch.Little = TransformHelpers.DtoToUserAccountViewModel(match);
+                                matchedBLPM.Little = TransformHelpers.DtoToUserAccountViewModel(match);
                                 break;
                             case 3:
-                                matchedBLPM.LittleParentMatch.Parent = TransformHelpers.DtoToUserAccountViewModel(match);
+                                matchedBLPM.Parent = TransformHelpers.DtoToUserAccountViewModel(match);
                                 break;
                         }
                     }
@@ -78,7 +104,6 @@ namespace AspNetCoreWebService.Repositories
                 {
                     return null;
                 }
-
             }
         }
 
@@ -120,17 +145,17 @@ namespace AspNetCoreWebService.Repositories
                     MatchedBigLittleParentModel currentMatch = new MatchedBigLittleParentModel();
                     foreach (var match in matchesQuery[key])
                     {
-                        
+
                         switch (match.UserTypeId)
                         {
                             case 1:
                                 currentMatch.Big = TransformHelpers.ModelToUserAccountViewModel(match);
                                 break;
                             case 2:
-                                currentMatch.LittleParentMatch.Little = TransformHelpers.ModelToUserAccountViewModel(match);
+                                currentMatch.Little = TransformHelpers.ModelToUserAccountViewModel(match);
                                 break;
                             case 3:
-                                currentMatch.LittleParentMatch.Parent = TransformHelpers.ModelToUserAccountViewModel(match);
+                                currentMatch.Parent = TransformHelpers.ModelToUserAccountViewModel(match);
                                 break;
                         }
                     }
@@ -164,13 +189,13 @@ namespace AspNetCoreWebService.Repositories
             using (var _context = new bbbsDbContext())
             {
                 var matchedLittleAccounts = (from ua in _context.UserAccounts
-                                      join lpm in _context.LittleParentMaps on ua.Id equals lpm.LittleId
-                                      join blpm in _context.BigLittleParentMaps on lpm.Id equals blpm.LittleParentMapId
-                                      select ua).Distinct().ToList();
+                                             join lpm in _context.LittleParentMaps on ua.Id equals lpm.LittleId
+                                             join blpm in _context.BigLittleParentMaps on lpm.Id equals blpm.LittleParentMapId
+                                             select ua).Distinct().ToList();
 
                 var unmatchedLittleAccounts = (from ua in _context.UserAccounts
-                                        where !matchedLittleAccounts.Contains(ua) && ua.UserTypeId == 2
-                                        select ua).Distinct().ToList();
+                                               where !matchedLittleAccounts.Contains(ua) && ua.UserTypeId == 2
+                                               select ua).Distinct().ToList();
 
                 var unmatchedLittleUserAccounts = TransformHelpers.ListUserAccountToModel(unmatchedLittleAccounts);
 
@@ -182,10 +207,11 @@ namespace AspNetCoreWebService.Repositories
         {
             using (var _context = new bbbsDbContext())
             {
-                var parentAccount = (from lpm in _context.LittleParentMaps
-                                     from ua in _context.UserAccounts
-                                     where lpm.LittleId == littleId && ua.UserTypeId == 3
-                                     select ua).FirstOrDefault();
+                var mapping = (from lpm in _context.LittleParentMaps
+                               where lpm.LittleId == littleId
+                               select lpm).FirstOrDefault();
+
+                var parentAccount = _context.UserAccounts.FirstOrDefault(x => x.Id == mapping.ParentId);
 
                 if (parentAccount != null)
                     return TransformHelpers.UserAccountToModel(parentAccount);

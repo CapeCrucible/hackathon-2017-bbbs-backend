@@ -11,7 +11,7 @@ namespace AspNetCoreWebService.Context
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=ccbbbsdb.co1ic5cxttaa.us-east-1.rds.amazonaws.com;Initial Catalog=bbbs2017db;Persist Security Info=True;User ID=bbbsuser;Password=1bbbsHackathon!");
+            optionsBuilder.UseSqlServer(@"Data Source=ccbbbsdatabase.co1ic5cxttaa.us-east-1.rds.amazonaws.com;Initial Catalog=bbbsdb;Persist Security Info=True;User ID=bbbsuser;Password=1bbbsHackathon!");
         }
 
         public DbSet<UserAccount> UserAccounts { get; set; }

@@ -117,6 +117,8 @@ namespace AspNetCoreWebService.Migrations
 
                     b.Property<string>("Password");
 
+                    b.Property<string>("PictureUrl");
+
                     b.Property<string>("UserName");
 
                     b.Property<int>("UserTypeId");

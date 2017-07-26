@@ -8,8 +8,8 @@ using AspNetCoreWebService.Context;
 namespace AspNetCoreWebService.Migrations
 {
     [DbContext(typeof(bbbsDbContext))]
-    [Migration("20170722212315_MAKE TABLE")]
-    partial class MAKETABLE
+    [Migration("20170726021531_add picture url to useraccount table")]
+    partial class addpictureurltouseraccounttable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -110,11 +110,15 @@ namespace AspNetCoreWebService.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<int>("Age");
+
                     b.Property<string>("FirstName");
 
                     b.Property<string>("LastName");
 
                     b.Property<string>("Password");
+
+                    b.Property<string>("PictureUrl");
 
                     b.Property<string>("UserName");
 

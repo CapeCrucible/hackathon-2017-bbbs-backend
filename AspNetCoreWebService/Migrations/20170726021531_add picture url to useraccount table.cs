@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace AspNetCoreWebService.Migrations
 {
-    public partial class MAKETABLE : Migration
+    public partial class addpictureurltouseraccounttable : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -58,9 +58,11 @@ namespace AspNetCoreWebService.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Age = table.Column<int>(nullable: false),
                     FirstName = table.Column<string>(nullable: true),
                     LastName = table.Column<string>(nullable: true),
                     Password = table.Column<string>(nullable: true),
+                    PictureUrl = table.Column<string>(nullable: true),
                     UserName = table.Column<string>(nullable: true),
                     UserTypeId = table.Column<int>(nullable: false)
                 },

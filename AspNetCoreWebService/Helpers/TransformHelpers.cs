@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AspNetCoreWebService.Services;
 
 namespace AspNetCoreWebService.Helpers
 {
@@ -19,7 +20,8 @@ namespace AspNetCoreWebService.Helpers
                 Password = account.Password,
                 UserName = account.UserName,
                 UserTypeId = account.UserTypeId,
-                Age = account.Age
+                Age = account.Age,
+                PictureUrl = account.PictureUrl
             };
         }
 
@@ -43,7 +45,8 @@ namespace AspNetCoreWebService.Helpers
                 Password = account.Password,
                 UserName = account.UserName,
                 UserTypeId = account.UserTypeId,
-                Age = account.Age
+                Age = account.Age,
+                PictureUrl = account.PictureUrl
             };
         }
 
@@ -69,7 +72,8 @@ namespace AspNetCoreWebService.Helpers
                 LastName = model.LastName,
                 UserName = model.UserName,
                 UserTypeId = model.UserTypeId,
-                Age = model.Age
+                Age = model.Age,
+                PictureUrl = model.PictureUrl
             };
         }
 
@@ -82,7 +86,8 @@ namespace AspNetCoreWebService.Helpers
                 UserName = viewModel.UserName,
                 UserTypeId = viewModel.UserTypeId,
                 Id = viewModel.Id,
-                Age = viewModel.Age
+                Age = viewModel.Age,
+                PictureUrl = viewModel.PictureUrl
             };
         }
 
@@ -105,7 +110,8 @@ namespace AspNetCoreWebService.Helpers
                 LastName = model.LastName,
                 UserName = model.UserName,
                 UserTypeId = model.UserTypeId,
-                Age = model.Age
+                Age = model.Age,
+                PictureUrl = model.PictureUrl
             };
         }
 
@@ -122,8 +128,20 @@ namespace AspNetCoreWebService.Helpers
                     UserName = model.UserAccount.UserName,
                     UserTypeId = model.UserAccount.UserTypeId,
                     Id = model.UserAccount.Id,
-                    Age = model.UserAccount.Age
+                    Age = model.UserAccount.Age,
+                    PictureUrl = model.UserAccount.PictureUrl
                 }
+            };
+        }
+
+        public static ConsolidatedUserInformationResponseModel UserAccountToConsResModel(UserAccount parentAccount)
+        {
+            return new ConsolidatedUserInformationResponseModel()
+            {
+                address = AddressService.GetAddressForUser(parentAccount.Id),
+                contactInfo = ContactInfoService.GetUserContactInfo(parentAccount.Id),
+                interests = InterestService.GetUserInterests(parentAccount.Id),
+                user = DtoToUserAccountViewModel(parentAccount)
             };
         }
     }

@@ -29,7 +29,7 @@ namespace AspNetCoreWebService.Repositories
         {
             using (var _context = new bbbsDbContext())
             {
-                int parentId = FindParentForLittle(mapModel.LittleId).Id;
+                int parentId = FindParentForLittle(mapModel.LittleId).user.Id;
 
                 var parentLittleMatch = (from lpm in _context.LittleParentMaps
                                          where lpm.LittleId == mapModel.LittleId
@@ -86,7 +86,8 @@ namespace AspNetCoreWebService.Repositories
                     UserName = model.UserName,
                     UserTypeId = model.UserTypeId,
                     Password = model.Password,
-                    Age = model.Age
+                    Age = model.Age,
+                    PictureUrl = model.PictureUrl
                 }).ToDictionary(y => y.Key, z => z.ToList());
 
                 List<ShallowMatchedBigLittleParentModel> matches = new List<ShallowMatchedBigLittleParentModel>();
@@ -212,7 +213,8 @@ namespace AspNetCoreWebService.Repositories
                     UserName = model.UserName,
                     UserTypeId = model.UserTypeId,
                     Password = model.Password,
-                    Age = model.Age
+                    Age = model.Age,
+                    PictureUrl = model.PictureUrl
                 }).ToDictionary(y => y.Key, z => z.ToList());
 
                 List<MatchedBigLittleParentModel> matches = new List<MatchedBigLittleParentModel>();
@@ -287,20 +289,21 @@ namespace AspNetCoreWebService.Repositories
             }
         }
 
-        public static UserAccountModel FindParentForLittle(int littleId)
+        public static ConsolidatedUserInformationResponseModel FindParentForLittle(int littleId)
         {
             using (var _context = new bbbsDbContext())
             {
                 var mapping = (from lpm in _context.LittleParentMaps
                                where lpm.LittleId == littleId
                                select lpm).FirstOrDefault();
-
-                var parentAccount = _context.UserAccounts.FirstOrDefault(x => x.Id == mapping.ParentId);
-
+                UserAccount parentAccount = null;
+                if (mapping != null)
+                    parentAccount = _context.UserAccounts.FirstOrDefault(x => x.Id == mapping.ParentId);
+                ConsolidatedUserInformationResponseModel uam = null;
                 if (parentAccount != null)
-                    return TransformHelpers.UserAccountToModel(parentAccount);
-                else
-                    return null;
+                    uam =  TransformHelpers.UserAccountToConsResModel(parentAccount);
+                
+                    return uam;
             }
         }
     }

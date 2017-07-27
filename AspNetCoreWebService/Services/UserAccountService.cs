@@ -42,7 +42,8 @@ namespace AspNetCoreWebService.Services
                 UserName = userAccountModel.UserName,
                 UserTypeId = userAccountModel.UserTypeId,
                 FirstName = userAccountModel.FirstName,
-                LastName = userAccountModel.LastName
+                LastName = userAccountModel.LastName,
+                PictureUrl = userAccountModel.PictureUrl
             };
         }
     }

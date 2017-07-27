@@ -38,7 +38,7 @@ namespace AspNetCoreWebService.Controllers
 
         [HttpGet]
         [Route("FindParentForLittle/{littleId}")]
-        public UserAccountModel FindParentForLittle(int littleId)
+        public ConsolidatedUserInformationResponseModel FindParentForLittle(int littleId)
         {
             return UserMappingService.FindParentForLittle(littleId);
         }

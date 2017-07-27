@@ -29,7 +29,7 @@ namespace AspNetCoreWebService.Services
             return UserMappingRepository.FindUnmatchedLittles();
         }
 
-        internal static UserAccountModel FindParentForLittle(int littleId)
+        internal static ConsolidatedUserInformationResponseModel FindParentForLittle(int littleId)
         {
             return UserMappingRepository.FindParentForLittle(littleId);
         }

@@ -36,14 +36,14 @@ namespace AspNetCoreWebService.Controllers
         }
 
         // GET: api/values
-        //IGNORE THIS SHIT
+        //IGNORE THIS
         [HttpPost]
         [Route("CreateUser")]
         public UserAccountViewModel CreateUser(UserAccountModel inputModel)
         {
             return TransformHelpers.ModelToUserAccountViewModel(UserAccountService.CreateUserAccount(inputModel));
         }
-        //IGNORE THIS SHIT
+        //IGNORE THIS
         [HttpPost]
         [Route("UpdateUser")]
         public ConsolidatedUserInformationModel UpdateUserInformation([FromBody] JObject jmodel)
@@ -128,7 +128,6 @@ namespace AspNetCoreWebService.Controllers
 
             return newModel;
         }
-
 
     }
 }

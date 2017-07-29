@@ -9,11 +9,7 @@ namespace AspNetCoreWebService.DTOs
     public class InterestUserMapModel
     {
         public int Id { get; set; }
-
         public int UserAccountId { get; set; }
-       // public virtual UserAccountModel UserAccount { get; set; }
-
         public int InterestId { get; set; }
-       // public virtual InterestModel Interest { get; set; }
     }
 }

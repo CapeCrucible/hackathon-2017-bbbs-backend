@@ -36,14 +36,13 @@ namespace AspNetCoreWebService.Controllers
         }
 
         // GET: api/values
-        //IGNORE THIS
         [HttpPost]
         [Route("CreateUser")]
         public UserAccountViewModel CreateUser(UserAccountModel inputModel)
         {
             return TransformHelpers.ModelToUserAccountViewModel(UserAccountService.CreateUserAccount(inputModel));
         }
-        //IGNORE THIS
+
         [HttpPost]
         [Route("UpdateUser")]
         public ConsolidatedUserInformationModel UpdateUserInformation([FromBody] JObject jmodel)
@@ -64,6 +63,7 @@ namespace AspNetCoreWebService.Controllers
             };
         }
 
+        //Future Work: Interests passed from frontend need to be formatted to correct json for InterestModels
         [HttpPost]
         [Route("CreateConsolidatedUser")]
         public ConsolidatedUserInformationResponseModel CreateConsolidatedUser([FromBody] JObject jmodel )
@@ -94,20 +94,7 @@ namespace AspNetCoreWebService.Controllers
                     InterestService.CreateInterestUserMap(NewMapping);
                 }
             }
-            else
-            {
-                //Demonstration Data
-                InterestService.CreateInterestUserMap(new InterestUserMapModel
-                {
-                    UserAccountId = Model.UserAccount.Id,
-                    InterestId = 1
-                });
-                InterestService.CreateInterestUserMap(new InterestUserMapModel
-                {
-                    UserAccountId = Model.UserAccount.Id,
-                    InterestId = 6
-                });
-            }
+            
             Model.Interests = InterestService.GetUserInterests(Model.UserAccount.Id);
 
             return TransformHelpers.UserInputModelToUserResponseModel(Model);

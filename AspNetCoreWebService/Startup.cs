@@ -1,16 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using AspNetCoreWebService.Context;
-using Microsoft.EntityFrameworkCore;
-using AspNetCoreWebService.Context.Models;
-using Microsoft.AspNetCore.Cors;
 using Newtonsoft.Json;
 
 namespace AspNetCoreWebService
@@ -53,15 +46,8 @@ namespace AspNetCoreWebService
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
 
-            //if (env.IsDevelopment())
-            //{
             app.UseDeveloperExceptionPage();
             app.UseBrowserLink();
-            //}
-            //else
-            //{
-            //    app.UseExceptionHandler("/Home/Error");
-            //}
 
             app.UseStaticFiles();
             app.UseCors("AllowAllOrigins");
